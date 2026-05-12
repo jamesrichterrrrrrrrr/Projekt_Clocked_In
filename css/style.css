@@ -408,3 +408,100 @@ body.welcome-page .big-beautiful-button {
   font-weight: 600;
   text-decoration: none;
 }
+/* TIMESHEET PAGE */
+.tab-group {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 14px;
+  border-radius: var(--radius-btn);
+  border: none;
+  background-color: var(--clr-black);
+  color: var(--clr-white);
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background-color: var(--clr-purple);
+}
+
+.week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--clr-pink);
+  border: 3px solid var(--clr-purple);
+  border-radius: var(--radius-btn);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+.week-arrow {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--clr-black);
+  font-weight: 700;
+}
+
+.entry-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.entry-card {
+  background-color: var(--clr-green);
+  border-radius: var(--radius-main);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.entry-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.entry-date {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.entry-tag {
+  background-color: var(--clr-purple);
+  color: var(--clr-white);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.entry-sub {
+  font-size: 0.8rem;
+  color: var(--clr-neutral-600);
+  margin-top: 4px;
+}
+
+.entry-arrow {
+  font-size: 1.5rem;
+  color: var(--clr-neutral-300);
+}
+.week-icon {
+  width: 18px;
+  vertical-align: middle;
+  margin-right: 6px;
+}

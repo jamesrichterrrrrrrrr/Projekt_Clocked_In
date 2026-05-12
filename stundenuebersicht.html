@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClockedIn - Übersicht</title>
+    <link rel="stylesheet" href="https://use.typekit.net/kxt6usx.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="app-container">
+
+        <!-- Header -->
+        <div class="main-header">
+            <img src="svgs/logo.svg" class="logo" alt="ClockedIn Logo">
+            <span class="location-tag">Standort Chur</span>
+        </div>
+
+        <!-- Titel -->
+        <div class="welcome-section">
+            <h1>Timesheet</h1>
+            <p>Überblick über deine Stunden in der Kita.</p>
+        </div>
+
+        <!-- Tab-Buttons -->
+        <div class="tab-group">
+            <button class="tab-btn active">Tag</button>
+            <button class="tab-btn">Woche</button>
+            <button class="tab-btn">Monat</button>
+        </div>
+
+        <!-- Wochen-Navigator -->
+        <div class="week-nav">
+            <button class="week-arrow">&lt;</button>
+            <span><img src="svgs/calendar_today.svg" class="week-icon" alt=""> Woche vom 27. April</span>
+            <button class="week-arrow">&gt;</button>
+        </div>
+
+        <!-- Einträge -->
+        <div class="entry-list">
+
+            <div class="entry-card">
+                <div class="entry-info">
+                    <div class="entry-main">
+                        <span class="entry-date">Mo, 27. Apr 2026</span>
+                        <span class="entry-tag">Kita</span>
+                    </div>
+                    <div class="entry-sub">
+                        <img src="svgs/Clock_Icon.svg" style="width:16px" alt="">
+                        Total: 6h 30m
+                    </div>
+                </div>
+                <span class="entry-arrow">›</span>
+            </div>
+
+            <div class="entry-card">
+                <div class="entry-info">
+                    <div class="entry-main">
+                        <span class="entry-date">Di, 28. Apr 2026</span>
+                        <span class="entry-tag">Kita</span>
+                    </div>
+                    <div class="entry-sub">
+                        <img src="svgs/Clock_Icon.svg" style="width:16px" alt="">
+                        Total: 2h 30m
+                    </div>
+                </div>
+                <span class="entry-arrow">›</span>
+            </div>
+
+            <div class="entry-card">
+                <div class="entry-info">
+                    <div class="entry-main">
+                        <span class="entry-date">Mi, 29. Apr 2026</span>
+                        <span class="entry-tag">Kita</span>
+                    </div>
+                    <div class="entry-sub">
+                        <img src="svgs/Clock_Icon.svg" style="width:16px" alt="">
+                        Total: 6h 30m
+                    </div>
+                </div>
+                <span class="entry-arrow">›</span>
+            </div>
+
+            <div class="entry-card">
+                <div class="entry-info">
+                    <div class="entry-main">
+                        <span class="entry-date">Do, 30. Apr 2026</span>
+                        <span class="entry-tag">Kita</span>
+                    </div>
+                    <div class="entry-sub">
+                        <img src="svgs/Clock_Icon.svg" style="width:16px" alt="">
+                        Total: 6h 30m
+                    </div>
+                </div>
+                <span class="entry-arrow">›</span>
+            </div>
+
+        </div>
+
+        <!-- Export Button -->
+        <button class="big-beautiful-button">Exportieren</button>
+
+        <!-- Bottom Nav -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item">
+                <img src="svgs/home.svg" class="nav-icon" alt="">
+                Home
+            </a>
+            <a href="stundenuebersicht.html" class="nav-item active">
+                <img src="svgs/pie_chart.svg" class="nav-icon" alt="">
+                Übersicht
+            </a>
+            <a href="einstellungen.html" class="nav-item">
+                <img src="svgs/settings.svg" class="nav-icon" alt="">
+                Einstellungen
+            </a>
+        </nav>
+
+    </div>
+
+    <script>
+        const weekNav = document.querySelector('.week-nav span');
+        let currentMonday = getMonday(new Date());
+
+        function getMonday(date) {
+            const d = new Date(date);
+            const day = d.getDay();
+            const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+            d.setDate(diff);
+            return d;
+        }
+
+        function formatDate(date) {
+            return date.toLocaleDateString('de-CH', { day: 'numeric', month: 'long' });
+        }
+
+        function updateNav() {
+            weekNav.innerHTML = `<img src="svgs/calendar_today.svg" class="week-icon" alt=""> Woche vom ${formatDate(currentMonday)}`;
+        }
+
+        document.querySelectorAll('.week-arrow')[0].addEventListener('click', () => {
+            currentMonday.setDate(currentMonday.getDate() - 7);
+            updateNav();
+        });
+
+        document.querySelectorAll('.week-arrow')[1].addEventListener('click', () => {
+            currentMonday.setDate(currentMonday.getDate() + 7);
+            updateNav();
+        });
+
+        updateNav();
+    </script>
+</body>
+
+</html>
