@@ -1,45 +1,35 @@
 /* 1. DESIGN TOKENS */
 :root {
-    /* Brand Colors */
-    --clr-purple: #8C79EF;
-    --clr-green: #DBF58A;
-    --clr-pink: #FEA3E0;
-    --clr-red: #EB4C15;
+  /* Brand Colors */
+  --clr-purple: #8c79ef;
+  --clr-green: #dbf58a;
+  --clr-pink: #fea3e0;
+  --clr-red: #eb4c15;
 
-    /* Neutrals */
-    --clr-black: #06050A;
-    --clr-neutral-600: #333236;
-    --clr-neutral-300: #5b5a5d;
-    --clr-neutral-50: #c1c1c2;
-    --clr-neutral-10: #F7F7F7;
-    --clr-white: #FFFFFF;
-    
-    /* Spacing & Borders */
-    --radius-main: 32px;    
-    --radius-btn: 72px;   
-    --radius-s: 16px;     
+  /* Neutrals */
+  --clr-black: #06050a;
+  --clr-neutral-600: #333236;
+  --clr-neutral-300: #5b5a5d;
+  --clr-neutral-50: #c1c1c2;
+  --clr-neutral-10: #f7f7f7;
+  --clr-white: #ffffff;
 
+  /* Spacing & Borders */
+  --radius-main: 32px;
+  --radius-btn: 72px;
+  --radius-s: 16px;
+  /* Neutrals */
+  --clr-black: #06050a;
+  --clr-neutral-600: #333236;
+  --clr-neutral-300: #5b5a5d;
+  --clr-neutral-50: #c1c1c2;
+  --clr-neutral-10: #f7f7f7;
+  --clr-white: #ffffff;
+
+    /* Fonts - WICHTIG: Adobe Name prüfen */
     --font-display: "snaga-unicase-display", sans-serif; 
     --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
-
-/* Reoccuring Shit */
-.big-beautiful-button {
-  width: 100%;
-  background-color: var(--clr-black);
-  color: var(--clr-white);
-  border: none;
-  padding: 24px;
-  border-radius: var(--radius-btn);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.1rem;
-  cursor: pointer;
-  margin-bottom: 24px;
-  transition: transform 0.1s;
-}
-
-
 
 
 /* 2. SCHRIFT-ERZWINGUNG (Auserhalb von :root!) */
@@ -237,6 +227,7 @@ body.welcome-page {
   font-family: var(--font-display);
   font-weight: 900;
   font-size: 4rem;
+  line-height: 1.05;
   color: var(--clr-black);
   margin-bottom: 24px;
 }
