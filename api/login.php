@@ -1,29 +1,39 @@
 <?php
 // login.php
-ini_set('session.cookie_httponly', 1);
-// ini_set('session.cookie_secure', 1); // if using HTTPS
+require_once __DIR__ . '/../system/cors.php';
+
+ini_set('session.cookie_httponly', '1');
+clocked_apply_cross_origin_session_cookie();
 session_start();
+
 header('Content-Type: application/json');
 
-require_once '../system/config.php';
+require_once __DIR__ . '/../system/config.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode(file_get_contents("php://input"), true);
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(["status" => "error", "message" => "Invalid request method"]);
+    exit;
+}
 
-    $email    = trim($data['email'] ?? '');
-    $password = trim($data['password'] ?? '');
+$data = json_decode(file_get_contents("php://input"), true);
+if (!is_array($data)) {
+    echo json_encode(["status" => "error", "message" => "Invalid JSON body"]);
+    exit;
+}
 
-    if (!$email || !$password) {
-        echo json_encode(["status" => "error", "message" => "Email and password are required"]);
-        exit;
-    }
+$email    = trim($data['email'] ?? '');
+$password = trim($data['password'] ?? '');
 
-    // Check user in DB
+if (!$email || !$password) {
+    echo json_encode(["status" => "error", "message" => "Email and password are required"]);
+    exit;
+}
+
+try {
     $stmt = $pdo->prepare("SELECT id, password FROM users WHERE email = :email");
     $stmt->execute([':email' => $email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Verify password
     if ($user && password_verify($password, $user['password'])) {
         session_regenerate_id(true);
         $_SESSION['user_id'] = $user['id'];
@@ -33,6 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         echo json_encode(["status" => "error", "message" => "Invalid credentials"]);
     }
-} else {
-    echo json_encode(["status" => "error", "message" => "Invalid request method"]);
+} catch (PDOException $e) {
+    http_response_code(500);
+    echo json_encode([
+        "status"  => "error",
+        "message" => "Login temporarily unavailable. Please try again later.",
+    ]);
 }

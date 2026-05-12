@@ -6,9 +6,9 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
   const password = document.getElementById("password").value.trim();
 
   try {
-    const response = await fetch("api/login.php", {
+    const response = await fetch(apiUrl("api/login.php"), {
       method: "POST",
-      // credentials: 'include', // uncomment if front-end & back-end are on different domains
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });

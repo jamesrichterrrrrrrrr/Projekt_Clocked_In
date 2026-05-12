@@ -4,7 +4,7 @@ document.getElementById("logoutBtn").addEventListener("click", async (e) => {
   e.preventDefault();
 
   try {
-    const response = await fetch("api/logout.php", {
+    const response = await fetch(apiUrl("api/logout.php"), {
       method: "GET",
       credentials: "include",
     });

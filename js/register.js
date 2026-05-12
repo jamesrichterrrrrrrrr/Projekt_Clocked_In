@@ -8,8 +8,9 @@ document
     const password = document.getElementById("password").value.trim();
 
     try {
-      const response = await fetch("api/register.php", {
+      const response = await fetch(apiUrl("api/register.php"), {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
