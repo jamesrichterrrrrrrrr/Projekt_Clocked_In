@@ -16,7 +16,7 @@
     
     /* Spacing & Borders */
     --radius-main: 32px;    
-    --radius-btn: 32px;   
+    --radius-btn: 100%;   
     --radius-s: 16px;     
 
 
