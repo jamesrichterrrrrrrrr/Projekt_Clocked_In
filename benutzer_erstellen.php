@@ -5,7 +5,7 @@
 define('DB_HOST', '225f75.myd.infomaniak.com');
 define('DB_NAME', '225f75_clocked_in');
 define('DB_USER', '225f75_quake_it');
-define('DB_PASS', 'githeh-wurxi3-Vaxxep');// ← eigenes DB-Passwort eintragen
+define('DB_PASS', 'githeh-wurxi3-Vaxxep');
 define('DB_CHARSET', 'utf8mb4');
 
 // location_id Mapping: Ort → ID
