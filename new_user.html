@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neues Benutzerprofil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Reset & Tokens ─────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:      #0f0e0d;
+      --paper:    #f5f0e8;
+      --card:     #fffdf8;
+      --accent:   #c0392b;
+      --muted:    #8a8070;
+      --border:   #ddd5c5;
+      --success:  #2d6a4f;
+      --error:    #c0392b;
+      --radius:   4px;
+      --shadow:   0 8px 40px rgba(15,14,13,.10);
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--paper);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--ink);
+    }
+
+    /* ── Background texture ─────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a09080' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Layout ─────────────────────────────────── */
+    main {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 3rem 1rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 560px;
+      overflow: hidden;
+      animation: rise .5s cubic-bezier(.22,.61,.36,1) both;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Card header ────────────────────────────── */
+    .card-head {
+      padding: 2.5rem 2.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .card-head::after {
+      content: '';
+      position: absolute;
+      left: 2.5rem; bottom: -1px;
+      width: 48px; height: 3px;
+      background: var(--accent);
+      border-radius: 2px 2px 0 0;
+    }
+
+    .card-head h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      letter-spacing: -.01em;
+      line-height: 1.2;
+    }
+
+    .card-head h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .card-head p {
+      margin-top: .5rem;
+      font-size: .875rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    /* ── Form body ──────────────────────────────── */
+    .card-body {
+      padding: 2rem 2.5rem 2.5rem;
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .field label {
+      font-size: .75rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      padding: .65rem .85rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .95rem;
+      font-weight: 400;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .field select {
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a8070' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right .85rem center;
+      padding-right: 2.25rem;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--ink);
+      box-shadow: 0 0 0 3px rgba(15,14,13,.07);
+    }
+
+    .field input.invalid,
+    .field select.invalid {
+      border-color: var(--error);
+    }
+
+    /* ── Submit button ──────────────────────────── */
+    .btn-submit {
+      width: 100%;
+      padding: .85rem;
+      margin-top: .5rem;
+      background: var(--ink);
+      color: var(--paper);
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .95rem;
+      font-weight: 500;
+      letter-spacing: .02em;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+    }
+
+    .btn-submit:hover  { background: #2a2724; }
+    .btn-submit:active { transform: scale(.985); }
+    .btn-submit:disabled { opacity: .5; cursor: not-allowed; }
+
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(245,240,232,.3);
+      border-top-color: var(--paper);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: none;
+    }
+    .btn-submit.loading .spinner { display: block; }
+    .btn-submit.loading .btn-text { display: none; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Toast ──────────────────────────────────── */
+    #toast {
+      display: none;
+      margin-top: 1.25rem;
+      padding: .85rem 1rem;
+      border-radius: var(--radius);
+      font-size: .875rem;
+      font-weight: 400;
+      line-height: 1.5;
+      animation: fadein .3s ease;
+    }
+
+    @keyframes fadein { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+
+    #toast.success {
+      background: #d8f3dc;
+      color: var(--success);
+      border: 1px solid #b7e4c7;
+    }
+
+    #toast.error {
+      background: #fde8e8;
+      color: var(--error);
+      border: 1px solid #f5c6c6;
+    }
+
+    @media (max-width: 480px) {
+      .card-head, .card-body { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .row-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <div class="card">
+
+    <div class="card-head">
+      <h1>Neues <em>Benutzerprofil</em></h1>
+      <p>Felder ausfüllen und speichern – das Profil wird direkt in der Datenbank angelegt.</p>
+    </div>
+
+    <div class="card-body">
+      <div class="row-2">
+        <div class="field">
+          <label for="firstname">Vorname</label>
+          <input type="text" id="firstname" name="firstname" placeholder="Max" autocomplete="given-name" />
+        </div>
+        <div class="field">
+          <label for="lastname">Nachname</label>
+          <input type="text" id="lastname" name="lastname" placeholder="Muster" autocomplete="family-name" />
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label for="rolle">Rolle</label>
+          <select id="rolle" name="rolle">
+            <option value="">— bitte wählen —</option>
+            <option value="Admin">Admin</option>
+            <option value="Ausleihe">Ausleihe</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="ort">Ort</label>
+          <select id="ort" name="ort">
+            <option value="">— bitte wählen —</option>
+            <option value="Bern">Bern</option>
+            <option value="Chur">Chur</option>
+            <option value="Zürich">Zürich</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">E-Mail</label>
+        <input type="email" id="email" name="email" placeholder="max@example.ch" autocomplete="email" />
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label for="passwort">Passwort <span style="color:var(--muted);font-size:.7rem;text-transform:none;letter-spacing:0">(min. 8 Zeichen)</span></label>
+          <input type="password" id="passwort" name="passwort" placeholder="••••••••" autocomplete="new-password" />
+        </div>
+        <div class="field">
+          <label for="card_id">Karten-ID</label>
+          <input type="text" id="card_id" name="card_id" placeholder="z.B. A3F92C" />
+        </div>
+      </div>
+
+      <button class="btn-submit" id="submitBtn" type="button" onclick="submitForm()">
+        <div class="spinner"></div>
+        <span class="btn-text">Profil erstellen</span>
+      </button>
+
+      <div id="toast"></div>
+    </div>
+  </div>
+</main>
+
+<script>
+  async function submitForm() {
+    const btn   = document.getElementById('submitBtn');
+    const toast = document.getElementById('toast');
+    const felder = ['firstname','lastname','rolle','ort','email','passwort','card_id'];
+
+    // Validierung
+    let ok = true;
+    felder.forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.remove('invalid');
+      if (!el.value.trim()) { el.classList.add('invalid'); ok = false; }
+    });
+
+    const emailEl = document.getElementById('email');
+    if (emailEl.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)) {
+      emailEl.classList.add('invalid'); ok = false;
+    }
+
+    const pwEl = document.getElementById('passwort');
+    if (pwEl.value && pwEl.value.length < 8) {
+      pwEl.classList.add('invalid'); ok = false;
+    }
+
+    if (!ok) {
+      showToast('Bitte alle Felder korrekt ausfüllen.', 'error');
+      return;
+    }
+
+    // Submit
+    btn.disabled = true;
+    btn.classList.add('loading');
+    toast.style.display = 'none';
+
+    const body = new FormData();
+    felder.forEach(id => body.append(id, document.getElementById(id).value));
+
+    try {
+      const res  = await fetch('benutzer_erstellen.php', { method: 'POST', body });
+      const data = await res.json();
+
+      if (data.success) {
+        showToast(data.message, 'success');
+        felder.forEach(id => { document.getElementById(id).value = ''; });
+      } else {
+        showToast(data.message, 'error');
+      }
+    } catch (e) {
+      showToast('Verbindungsfehler – bitte erneut versuchen.', 'error');
+    } finally {
+      btn.disabled = false;
+      btn.classList.remove('loading');
+    }
+  }
+
+  function showToast(msg, type) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className   = type;
+    t.style.display = 'block';
+  }
+
+  // Enter-Taste
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitForm();
+  });
+</script>
+</body>
+</html>
