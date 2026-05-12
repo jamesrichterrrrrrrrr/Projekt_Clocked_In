@@ -1,5 +1,3 @@
-/* Grundkonfiguration */
-/* 1. DESIGN TOKENS */
 /* 1. DESIGN TOKENS */
 :root {
     /* Brand Colors */
@@ -21,7 +19,6 @@
     --radius-btn: 72px;   
     --radius-s: 16px;     
 
-    /* Fonts - WICHTIG: Adobe Name prüfen */
     --font-display: "snaga-unicase-display", sans-serif; 
     --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
@@ -235,9 +232,7 @@ body.welcome-page {
   font-family: var(--font-display);
   font-weight: 900;
   font-size: 4rem;
-  line-height: 1.05;
   color: var(--clr-black);
-  text-transform: lowercase;
   margin-bottom: 24px;
 }
 
