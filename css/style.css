@@ -7,6 +7,20 @@
   --clr-pink: #fea3e0;
   --clr-red: #eb4c15;
 
+<<<<<<< HEAD
+    /* Neutrals */
+    --clr-black: #06050A;
+    --clr-neutral-600: #333236;
+    --clr-neutral-300: #5b5a5d;
+    --clr-neutral-50: #c1c1c2;
+    --clr-neutral-10: #F7F7F7;
+    --clr-white: #FFFFFF;
+    
+    /* Spacing & Borders */
+    --radius-main: 32px;    
+    --radius-btn: 100%;   
+    --radius-s: 16px;     
+=======
   /* Neutrals */
   --clr-black: #06050a;
   --clr-neutral-600: #333236;
@@ -14,6 +28,7 @@
   --clr-neutral-50: #c1c1c2;
   --clr-neutral-10: #f7f7f7;
   --clr-white: #ffffff;
+>>>>>>> be6ffdb11e2eef25bc4bd6ace4ed82d1e8ec41fa
 
   /* Spacing & Borders */
   --radius-main: 32px;
