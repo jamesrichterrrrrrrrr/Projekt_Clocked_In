@@ -40,6 +40,40 @@
     transition: transform 0.1s;
 }
 
+/* Simple hover animation für den Button */
+.big-beautiful-button {
+  transition: transform 180ms cubic-bezier(.2,.9,.2,1), box-shadow 180ms ease, opacity 120ms ease;
+  will-change: transform, box-shadow;
+  box-shadow: 0 8px 24px rgba(6,5,10,0.12);
+}
+
+.big-beautiful-button:hover,
+.big-beautiful-button:focus {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 18px 40px rgba(6,5,10,0.18);
+}
+
+.big-beautiful-button:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 6px 18px rgba(6,5,10,0.10);
+}
+
+/* reduced motion respektieren */
+@media (prefers-reduced-motion: reduce) {
+  .big-beautiful-button,
+  .big-beautiful-button:hover,
+  .big-beautiful-button:focus,
+  .big-beautiful-button:active {
+    transition: none;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+#btn-clock-in:active {
+  transform: scale(0.96);
+}
+
 /* 2. SCHRIFT-ERZWINGUNG (Auserhalb von :root!) */
 h1,
 h2,
@@ -240,22 +274,3 @@ body.welcome-page {
   margin-bottom: 24px;
 }
 
-#btn-clock-in {
-  width: 100%;
-  background-color: var(--clr-black);
-  color: var(--clr-white);
-  border: none;
-  padding: 24px;
-  border-radius: var(--radius-btn);
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 1.1rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: transform 0.1s;
-}
-
-#btn-clock-in:active {
-  transform: scale(0.96);
-}

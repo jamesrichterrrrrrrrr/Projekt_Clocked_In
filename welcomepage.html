@@ -15,20 +15,14 @@
     <img src="svgs/uhr.svg" class="biguhr" alt="">
 
     <div class="welcome-bottom h1">
-        <h1>take a<br>deep breath</h1>
-        <button class="big-beautiful-button">let's clock</button>
+        <h1>take a deep breath</h1>
+        <button id="btn-clock-in" class="big-beautiful-button">let's clock</button>
     </div>
 
-    <!-- Redirect on button click -->
     <script>
       const btn = document.getElementById('btn-clock-in');
-      if (btn) {
-        btn.addEventListener('click', () => {
-          window.location.href = 'login.html';
-        });
-      }
+      if (btn) btn.addEventListener('click', () => { window.location.href = 'login.html'; });
     </script>
-
 </body>
 
 </html>
