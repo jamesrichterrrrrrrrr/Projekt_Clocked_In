@@ -124,14 +124,13 @@ body {
     background-color: var(--clr-black);
     color: var(--clr-white);
     border: none;
-    padding: 22px;
+    padding: 24px;
     border-radius: var(--radius-btn);
-    font-family: var(--font-main); /* SF Pro fÃ¼r Buttons ist lesbarer */
+    font-family: var(--font-display); 
     font-weight: 700;
     font-size: 1.1rem;
-    text-transform: uppercase;
     cursor: pointer;
-    margin-bottom: 25px;
+    margin-bottom: 24px;
     transition: transform 0.1s;
 }
 
