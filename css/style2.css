@@ -9,7 +9,6 @@
     /* Neutrals */
     --clr-black: #06050A;
     --clr-neutral-600: #333236;
-    --clr-neutral-300: #5b5a5d;
     --clr-neutral-50: #c1c1c2;
     --clr-neutral-10: #F7F7F7;
     --clr-white: #FFFFFF;
@@ -17,7 +16,6 @@
     /* Spacing & Borders */
     --radius-main: 32px;    
     --radius-btn: 32px;   
-    --radius-s: 16px;     
     
     /* Fonts */
     --font-display: "snaga-uni", sans-serif; 
@@ -168,6 +166,8 @@ body {
 .bottom-nav {
     position: fixed;
     bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
     max-width: 430px;
     width: 100%;
     background: var(--clr-white);
@@ -194,7 +194,7 @@ body {
 .nav-icon {
     width: 24px;
     height: 24px;
-    background-color: var(--clr-neutral-30);
+    background-color: var(--clr-neutral-50);
     border-radius: 8px;
     margin-bottom: 4px;
 }

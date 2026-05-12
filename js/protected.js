@@ -1,11 +1,11 @@
 async function checkAuth() {
   try {
-    const response = await fetch("/api/protected.php", {
+    const response = await fetch(apiUrl("api/protected.php"), {
       credentials: "include",
     });
 
     if (response.status === 401) {
-      window.location.href = "/login.html";
+      window.location.href = "login.html";
       return false;
     }
 
@@ -18,7 +18,7 @@ async function checkAuth() {
     return true;
   } catch (error) {
     console.error("Auth check failed:", error);
-    window.location.href = "/login.html";
+    window.location.href = "login.html";
     return false;
   }
 }

@@ -20,7 +20,7 @@
       --muted:    #8a8070;
       --border:   #ddd5c5;
       --success:  #2d6a4f;
-      --error:    #c0392b;
+      --error:    var(--accent);
       --radius:   4px;
       --shadow:   0 8px 40px rgba(15,14,13,.10);
     }
@@ -301,6 +301,7 @@
   </div>
 </main>
 
+<script src="js/api-config.js"></script>
 <script>
   async function submitForm() {
     const btn   = document.getElementById('submitBtn');
@@ -339,8 +340,24 @@
     felder.forEach(id => body.append(id, document.getElementById(id).value));
 
     try {
-      const res  = await fetch('benutzer_erstellen.php', { method: 'POST', body });
-      const data = await res.json();
+      const res = await fetch(apiUrl('api/benutzer_erstellen.php'), { method: 'POST', body, credentials: 'include' });
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (parseErr) {
+        console.error('HTTP', res.status, 'Antwort (kein JSON):', text.slice(0, 500));
+        let hint = 'Server-Antwort war kein JSON (oft PHP-Fehler/Warnung vor dem JSON). Browser-Konsole prüfen.';
+        if (res.status === 404) {
+          hint = 'api/benutzer_erstellen.php nicht gefunden — alle Ordner (api/, system/) hochladen, Groß-/Kleinschreibung beachten.';
+        } else if (location.protocol === 'file:') {
+          hint = 'Seite per file:// geöffnet — über https://… auf dem Server öffnen, sonst funktioniert fetch() nicht.';
+        } else if (!String(window.API_BASE || '').trim() && location.origin) {
+          hint += ' Falls die Seite woanders liegt: API_BASE in js/api-config.js setzen.';
+        }
+        showToast(hint, 'error');
+        return;
+      }
 
       if (data.success) {
         showToast(data.message, 'success');
@@ -349,6 +366,7 @@
         showToast(data.message, 'error');
       }
     } catch (e) {
+      console.error(e);
       showToast('Verbindungsfehler – bitte erneut versuchen.', 'error');
     } finally {
       btn.disabled = false;

@@ -14,6 +14,16 @@ body {
   overflow: hidden;
 }
 
+.login-wrapper {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Hintergrund SVGs Positionierung */
 .bg-shape {
   position: absolute;
