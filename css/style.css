@@ -240,9 +240,9 @@ body.welcome-page {
 }
 
 .welcome-bottom h1 {
-  font-family: inherit !important;
-  font-style: normal;
-  font-weight: 400;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 4rem;
   line-height: 1.05;
   color: var(--clr-black);
   text-transform: lowercase;

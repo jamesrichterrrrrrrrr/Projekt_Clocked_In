@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.typekit.net/kxt6usx.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -17,6 +18,16 @@
         <h1>take a<br>deep breath</h1>
         <button id="btn-clock-in">let's clock</button>
     </div>
+
+    <!-- Redirect on button click -->
+    <script>
+      const btn = document.getElementById('btn-clock-in');
+      if (btn) {
+        btn.addEventListener('click', () => {
+          window.location.href = 'login.html';
+        });
+      }
+    </script>
 
 </body>
 
