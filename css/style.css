@@ -18,13 +18,21 @@
     --radius-main: 32px;    
     --radius-btn: 32px;   
     --radius-s: 16px;     
-    
-    /* Fonts */
-    --font-display: "snaga-uni", sans-serif; 
+
+
+    --font-display: "snaga-unicase-display", sans-serif;
+        font-weight: 900;
+        font-style: normal;
+
     --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* 2. RESET & BASIS */
+/* 2. SCHRIFT-ERZWINGUNG (Auserhalb von :root!) */
+h1, h2, h3, .logo, .timer-display {
+    font-family: var(--font-display);
+}
+
+/* 3. RESET & BASIS */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -32,7 +40,7 @@
 }
 
 body {
-    background-color: var(--clr-neutral-10); /* Sehr helles Grau statt reinweiß */
+    background-color: var(--clr-neutral-10);
     font-family: var(--font-main);
     display: flex;
     justify-content: center;
@@ -50,7 +58,7 @@ body {
     flex-direction: column;
 }
 
-/* 3. KOMPONENTEN */
+/* 4. KOMPONENTEN */
 
 .main-header {
     display: flex;
@@ -60,28 +68,21 @@ body {
     padding-top: 10px;
 }
 
-.logo {
-    font-family: var(--font-display);
-    font-weight: 900;
-    font-size: 1.5rem;
-    text-transform: uppercase;
-}
-
 .location-tag {
     color: var(--clr-purple);
     font-size: 0.85rem;
-    font-weight: 600; /* SF Pro Medium/Bold */
+    font-weight: 600;
 }
 
 .welcome-section h1 {
     font-family: var(--font-display);
+    font-weight: 900;
     font-size: 3.8rem;
     line-height: 0.85;
     color: var(--clr-purple);
     margin-bottom: 30px;
 }
 
-/* Timer Card */
 .timer-card {
     background-color: var(--clr-purple);
     border-radius: var(--radius-main);
@@ -94,7 +95,7 @@ body {
 .placeholder-circle {
     width: 70px;
     height: 70px;
-    border: 6px solid var(--clr-red); /* Dein Red-500 für den Akzent */
+    border: 6px solid var(--clr-red);
     border-radius: 50%;
     margin: 0 auto 15px;
 }
@@ -106,7 +107,6 @@ body {
 }
 
 .timer-display {
-    font-family: var(--font-display);
     font-size: 3.5rem;
     margin-bottom: 5px;
 }
@@ -120,7 +120,6 @@ body {
     opacity: 0.8;
 }
 
-/* Button */
 .btn-clock-in {
     width: 100%;
     background-color: var(--clr-black);
@@ -128,7 +127,7 @@ body {
     border: none;
     padding: 22px;
     border-radius: var(--radius-btn);
-    font-family: var(--font-main);
+    font-family: var(--font-main); /* SF Pro fÃ¼r Buttons ist lesbarer */
     font-weight: 700;
     font-size: 1.1rem;
     text-transform: uppercase;
@@ -141,7 +140,6 @@ body {
     transform: scale(0.96);
 }
 
-/* Info Grid */
 .info-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -162,9 +160,7 @@ body {
 .info-card.green { background-color: var(--clr-green); color: var(--clr-neutral-600); }
 
 .info-card p { font-size: 0.8rem; font-weight: 600; }
-.info-card h3 { font-family: var(--font-display); font-size: 1.6rem; margin-top: 5px; }
 
-/* Navigation */
 .bottom-nav {
     position: fixed;
     bottom: 0;
