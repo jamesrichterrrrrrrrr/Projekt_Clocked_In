@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <div class="app-container">
+    <div class="app-container" id="app">
 
         <header class="main-header">
             <img src="svgs/logo.svg" class="logo" alt="ClockedIn Logo">
@@ -24,29 +24,29 @@
 
         <div class="timer-card">
             <img src="svgs/uhrklein.svg" class="timer-uhr" alt="">
-            <p class="timer-label">Lock in!</p>
+            <p class="timer-label" id="timer-label">Lock in!</p>
             <div class="timer-row">
                 <div class="timer-col">
-                    <span class="timer-display">00</span>
+                    <span class="timer-display" id="t-hours">00</span>
                     <span class="timer-unit">Stunden</span>
                 </div>
                 <div class="timer-col">
-                    <span class="timer-display">00</span>
+                    <span class="timer-display" id="t-minutes">00</span>
                     <span class="timer-unit">Minuten</span>
                 </div>
                 <div class="timer-col">
-                    <span class="timer-display">00</span>
+                    <span class="timer-display" id="t-seconds">00</span>
                     <span class="timer-unit">Sekunden</span>
                 </div>
             </div>
         </div>
 
-<button class="big-beautiful-button" id="btn-clock-in">Clock In</button>
+        <button class="big-beautiful-button" id="btn-clock-in">Clock In</button>
 
         <div class="info-grid">
             <div class="info-card pink">
                 <p>Gesamt heute:</p>
-                <h3>0H 30M</h3>
+                <h3 id="total-today">0H 30M</h3>
             </div>
             <button class="info-card green">
                 <span class="manual-plus">+</span>
@@ -68,36 +68,52 @@
                 Einstellungen
             </a>
         </nav>
-<!-- Activity Modal -->
-<div class="activity-overlay" id="activity-overlay">
-    <div class="activity-modal">
-        <div class="activity-header">
-            <h2>Choose your Hustle</h2>
-            <button class="activity-close" id="activity-close" aria-label="Schließen">×</button>
+
+        <!-- Activity Modal -->
+        <div class="activity-overlay" id="activity-overlay">
+            <div class="activity-modal">
+                <div class="activity-header">
+                    <h2>Choose your Hustle</h2>
+                    <button class="activity-close" id="activity-close" aria-label="Schließen">×</button>
+                </div>
+
+                <div class="activity-grid">
+                    <button class="activity-btn" data-activity="Kita">Kita</button>
+                    <button class="activity-btn" data-activity="Büro">Büro</button>
+                    <button class="activity-btn" data-activity="Meeting">Meeting</button>
+                    <button class="activity-btn" data-activity="Clean Up">Clean Up</button>
+                </div>
+
+                <button class="big-beautiful-button" id="activity-confirm" disabled>Let's Go</button>
+            </div>
         </div>
 
-        <div class="activity-grid">
-            <button class="activity-btn" data-activity="Kita">Kita</button>
-            <button class="activity-btn" data-activity="Büro">Büro</button>
-            <button class="activity-btn" data-activity="Meeting">Meeting</button>
-            <button class="activity-btn" data-activity="Clean Up">Clean Up</button>
-        </div>
+    </div>
 
-        <button class="big-beautiful-button" id="activity-confirm" disabled>Let's Go</button>
-    </div>
-</div>
-    </div>
     <script>
+        const app = document.getElementById('app');
         const overlay = document.getElementById('activity-overlay');
-        const clockInBtn = document.getElementById('btn-clock-in');
+        const clockBtn = document.getElementById('btn-clock-in');
         const closeBtn = document.getElementById('activity-close');
         const confirmBtn = document.getElementById('activity-confirm');
         const activityBtns = document.querySelectorAll('.activity-btn');
-        let selectedActivity = null;
 
-        // Modal öffnen
-        clockInBtn.addEventListener('click', () => {
-            overlay.classList.add('active');
+        const timerLabel = document.getElementById('timer-label');
+        const tHours = document.getElementById('t-hours');
+        const tMinutes = document.getElementById('t-minutes');
+        const tSeconds = document.getElementById('t-seconds');
+
+        let selectedActivity = null;
+        let timerInterval = null;
+        let startTime = null;
+
+        // Clock-In/Out Button
+        clockBtn.addEventListener('click', () => {
+            if (app.classList.contains('clocked-in')) {
+                clockOut();
+            } else {
+                overlay.classList.add('active');
+            }
         });
 
         // Modal schließen
@@ -123,12 +139,41 @@
             });
         });
 
-        // Bestätigen → hier kannst du dein Clock-In-Logik einbauen
+        // Let's Go → Clock In starten
         confirmBtn.addEventListener('click', () => {
-            console.log('Clocked in als:', selectedActivity);
+            clockIn(selectedActivity);
             closeModal();
-            // z.B. Timer starten, Tag-Anzeige aktualisieren etc.
         });
+
+        function clockIn(activity) {
+            app.classList.add('clocked-in');
+            timerLabel.textContent = `${activity} seit`;
+            clockBtn.textContent = 'Clock Out';
+            startTime = Date.now();
+            timerInterval = setInterval(updateTimer, 1000);
+            updateTimer();
+        }
+
+        function clockOut() {
+            app.classList.remove('clocked-in');
+            clearInterval(timerInterval);
+            timerInterval = null;
+            timerLabel.textContent = 'Lock in!';
+            clockBtn.textContent = 'Clock In';
+            tHours.textContent = '00';
+            tMinutes.textContent = '00';
+            tSeconds.textContent = '00';
+        }
+
+        function updateTimer() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const h = Math.floor(elapsed / 3600);
+            const m = Math.floor((elapsed % 3600) / 60);
+            const s = elapsed % 60;
+            tHours.textContent = String(h).padStart(2, '0');
+            tMinutes.textContent = String(m).padStart(2, '0');
+            tSeconds.textContent = String(s).padStart(2, '0');
+        }
     </script>
 </body>
 

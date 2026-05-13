@@ -771,7 +771,9 @@ body.welcome-page .big-beautiful-button {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(6, 5, 10, 0.6);
+  background: rgba(6, 5, 10, 0.4);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px); /* für Safari */
   z-index: 100;
   align-items: center;
   justify-content: center;
@@ -859,4 +861,187 @@ body.welcome-page .big-beautiful-button {
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+}
+
+/* CLOCKED-IN STATE */
+.app-container.clocked-in #btn-clock-in {
+  background-color: var(--clr-red);
+}
+
+.app-container.clocked-in .timer-display {
+  color: var(--clr-red);
+}
+
+.app-container.clocked-in .info-card.green {
+  background-color: var(--clr-neutral-50);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.app-container.clocked-in .info-card.green p,
+.app-container.clocked-in .manual-plus {
+  color: var(--clr-neutral-300);
+}
+
+.app-container.clocked-in .info-card.pink {
+  outline: 3px solid var(--clr-purple);
+  outline-offset: 2px;
+}
+
+/* CLOCK-OUT MODAL */
+.clockout-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 5, 10, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.clockout-overlay.active {
+  display: flex;
+}
+
+.clockout-modal {
+  background-color: var(--clr-purple);
+  border-radius: var(--radius-main);
+  padding: 28px 24px;
+  width: 100%;
+  max-width: 380px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(6, 5, 10, 0.3);
+  color: var(--clr-white);
+}
+
+.clockout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.clockout-header h2 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.2rem;
+}
+
+.clockout-close {
+  background: none;
+  border: none;
+  color: var(--clr-white);
+  font-size: 1.6rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.clockout-time {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.co-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.co-val {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 2.8rem;
+  color: var(--clr-pink);
+  line-height: 1;
+}
+
+.co-unit {
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+.clockout-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.co-pill {
+  background-color: var(--clr-black);
+  color: var(--clr-white);
+  border: none;
+  border-radius: var(--radius-btn);
+  padding: 10px 22px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.co-pill.selected {
+  background-color: var(--clr-pink);
+  color: var(--clr-black);
+}
+
+.clockout-circle-wrap {
+  position: relative;
+  width: 240px;
+  margin: 0 auto 24px;
+}
+
+.co-ring {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.co-circle-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.co-label {
+  font-size: 0.95rem;
+  color: var(--clr-white);
+}
+
+.co-time {
+  background: transparent;
+  border: none;
+  color: var(--clr-white);
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 2rem;
+  text-align: center;
+  width: 130px;
+  cursor: pointer;
+  padding: 2px 0;
+}
+
+.co-time-from {
+  color: var(--clr-green);
+}
+.co-time-to {
+  color: var(--clr-pink);
+}
+
+.co-time::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+.clockout-modal .big-beautiful-button {
+  margin-bottom: 0;
+  outline: 3px solid var(--clr-purple);
+  outline-offset: 3px;
 }
