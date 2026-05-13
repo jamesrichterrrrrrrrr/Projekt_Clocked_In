@@ -7,6 +7,40 @@
     <title>ClockedIn - Home</title>
     <link rel="stylesheet" href="https://use.typekit.net/kxt6usx.css">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* --- Fix Drag: Overlay-Div darf Pointer-Events nicht abfangen --- */
+        .co-circle-content {
+            pointer-events: none;
+        }
+
+        .co-circle-content .co-time {
+            pointer-events: auto;
+            /* Inputs bleiben klickbar */
+        }
+
+        /* --- Fix Zentrierung: Browser-Defaults der time-Inputs entfernen --- */
+        .co-time {
+            -webkit-appearance: none;
+            -moz-appearance: textfield;
+            appearance: none;
+            box-sizing: content-box;
+        }
+
+        .co-time::-webkit-clear-button,
+        .co-time::-webkit-inner-spin-button,
+        .co-time::-webkit-calendar-picker-indicator {
+            display: none;
+            -webkit-appearance: none;
+            appearance: none;
+            margin: 0;
+        }
+
+        /* SVG-Punkte: Touch-Drag erlauben */
+        #co-dot-from,
+        #co-dot-to {
+            touch-action: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -119,16 +153,17 @@
                 </div>
 
                 <div class="clockout-circle-wrap">
-                    <svg class="co-ring" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="co-ring" id="co-ring" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
                         <!-- weißer Ring -->
                         <circle cx="120" cy="120" r="100" fill="none" stroke="#ffffff" stroke-width="14" />
-                        <!-- schwarzer Bogen (von rechts unten zur unteren Mitte) -->
-                        <path d="M 220 120 A 100 100 0 0 1 120 220" fill="none" stroke="#06050a" stroke-width="14"
-                            stroke-linecap="round" />
+                        <!-- schwarzer Bogen zwischen von & bis -->
+                        <path id="co-arc" d="" fill="none" stroke="#06050a" stroke-width="14" stroke-linecap="round" />
                         <!-- Grüner Punkt (von) -->
-                        <circle cx="220" cy="120" r="16" fill="#dbf58a" stroke="#06050a" stroke-width="4" />
+                        <circle id="co-dot-from" cx="220" cy="120" r="16" fill="#dbf58a" stroke="#06050a"
+                            stroke-width="4" style="cursor:grab; touch-action:none;" />
                         <!-- Pinker Punkt (bis) -->
-                        <circle cx="120" cy="220" r="16" fill="#fea3e0" stroke="#06050a" stroke-width="4" />
+                        <circle id="co-dot-to" cx="120" cy="220" r="16" fill="#fea3e0" stroke="#06050a" stroke-width="4"
+                            style="cursor:grab; touch-action:none;" />
                     </svg>
                     <div class="co-circle-content">
                         <span class="co-label">von</span>
@@ -253,6 +288,7 @@
             });
 
             recalcClockoutDuration();
+            updateCircleVisual();
             clockoutOverlay.classList.add('active');
         }
 
@@ -291,8 +327,117 @@
             });
         });
 
-        coFrom.addEventListener('input', recalcClockoutDuration);
-        coTo.addEventListener('input', recalcClockoutDuration);
+        coFrom.addEventListener('input', () => { recalcClockoutDuration(); updateCircleVisual(); });
+        coTo.addEventListener('input', () => { recalcClockoutDuration(); updateCircleVisual(); });
+
+        // ----- Drag-Logik für den Kreis -----
+        const coRing = document.getElementById('co-ring');
+        const coArc = document.getElementById('co-arc');
+        const coDotFrom = document.getElementById('co-dot-from');
+        const coDotTo = document.getElementById('co-dot-to');
+
+        const CENTER = 120;
+        const RADIUS = 100;
+        const SNAP_MIN = 5; // auf 5-Minuten-Schritte einrasten
+
+        // Zeit ↔ Winkel (24h = 360°, 0:00 = oben, im Uhrzeigersinn)
+        function timeToAngle(timeStr) {
+            const [h, m] = timeStr.split(':').map(Number);
+            return ((h * 60 + m) / (24 * 60)) * 360;
+        }
+        function angleToTime(angle) {
+            angle = ((angle % 360) + 360) % 360;
+            let totalMin = Math.round((angle / 360) * 24 * 60);
+            totalMin = Math.round(totalMin / SNAP_MIN) * SNAP_MIN;
+            totalMin = ((totalMin % (24 * 60)) + (24 * 60)) % (24 * 60);
+            const h = Math.floor(totalMin / 60);
+            const m = totalMin % 60;
+            return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+        }
+        function angleToPos(angle) {
+            const rad = (angle - 90) * Math.PI / 180; // -90: 0° = oben
+            return {
+                x: CENTER + RADIUS * Math.cos(rad),
+                y: CENTER + RADIUS * Math.sin(rad)
+            };
+        }
+
+        // SVG-Pfad für den schwarzen Bogen von fromAngle → toAngle (clockwise)
+        function describeArc(fromAngle, toAngle) {
+            const from = angleToPos(fromAngle);
+            const to = angleToPos(toAngle);
+            let sweep = toAngle - fromAngle;
+            sweep = ((sweep % 360) + 360) % 360;
+            const largeArc = sweep > 180 ? 1 : 0;
+            return `M ${from.x} ${from.y} A ${RADIUS} ${RADIUS} 0 ${largeArc} 1 ${to.x} ${to.y}`;
+        }
+
+        // Kreis & Bogen anhand der aktuellen Inputs neu zeichnen
+        function updateCircleVisual() {
+            if (!coFrom.value || !coTo.value) return;
+            const aFrom = timeToAngle(coFrom.value);
+            const aTo = timeToAngle(coTo.value);
+            const pFrom = angleToPos(aFrom);
+            const pTo = angleToPos(aTo);
+            coDotFrom.setAttribute('cx', pFrom.x);
+            coDotFrom.setAttribute('cy', pFrom.y);
+            coDotTo.setAttribute('cx', pTo.x);
+            coDotTo.setAttribute('cy', pTo.y);
+            coArc.setAttribute('d', describeArc(aFrom, aTo));
+        }
+
+        // Bildschirm-Koordinaten → SVG-Koordinaten
+        function clientToSvg(clientX, clientY) {
+            const pt = coRing.createSVGPoint();
+            pt.x = clientX;
+            pt.y = clientY;
+            return pt.matrixTransform(coRing.getScreenCTM().inverse());
+        }
+
+        // Punkt → Winkel (0° = oben, im Uhrzeigersinn)
+        function posToAngle(x, y) {
+            const dx = x - CENTER;
+            const dy = y - CENTER;
+            let deg = Math.atan2(dy, dx) * 180 / Math.PI + 90;
+            if (deg < 0) deg += 360;
+            return deg;
+        }
+
+        function setupDrag(dot, target /* 'from' | 'to' */) {
+            let dragging = false;
+
+            const onMove = (e) => {
+                if (!dragging) return;
+                e.preventDefault();
+                const { x, y } = clientToSvg(e.clientX, e.clientY);
+                const angle = posToAngle(x, y);
+                const time = angleToTime(angle);
+                if (target === 'from') coFrom.value = time;
+                else coTo.value = time;
+                updateCircleVisual();
+                recalcClockoutDuration();
+            };
+
+            const onUp = (e) => {
+                if (!dragging) return;
+                dragging = false;
+                dot.style.cursor = 'grab';
+                try { dot.releasePointerCapture(e.pointerId); } catch (_) { }
+            };
+
+            dot.addEventListener('pointerdown', (e) => {
+                e.preventDefault();
+                dragging = true;
+                dot.style.cursor = 'grabbing';
+                try { dot.setPointerCapture(e.pointerId); } catch (_) { }
+            });
+            dot.addEventListener('pointermove', onMove);
+            dot.addEventListener('pointerup', onUp);
+            dot.addEventListener('pointercancel', onUp);
+        }
+
+        setupDrag(coDotFrom, 'from');
+        setupDrag(coDotTo, 'to');
 
         clockoutSave.addEventListener('click', () => {
             // Hier könntest du den Eintrag speichern (z.B. in localStorage / API)
