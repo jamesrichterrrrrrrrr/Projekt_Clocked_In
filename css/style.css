@@ -213,7 +213,7 @@ body {
   bottom: 0;
   max-width: 430px;
   width: 100%;
-  background: var(--clr-white);
+  background: var(--clr-purple);
   display: flex;
   justify-content: space-around;
   padding: 20px 0 35px 0;
@@ -227,26 +227,21 @@ body {
   flex-direction: column;
   align-items: center;
   text-decoration: none;
-  color: var(--clr-neutral-50);
+  color: var(--clr-white);
   font-size: 0.7rem;
   font-weight: 600;
 }
 
 .nav-item.active {
-  color: var(--clr-purple);
+  color: var(--clr-pink);
 }
 
 .nav-icon {
-  width: 24px;
-  height: 24px;
-  background-color: var(--clr-neutral-30);
-  border-radius: 8px;
+  width: 32px;
+  height: 32px;
   margin-bottom: 4px;
 }
 
-.nav-item.active .nav-icon {
-  background-color: var(--clr-purple);
-}
 
 body.welcome-page {
   background-color: var(--clr-pink);
