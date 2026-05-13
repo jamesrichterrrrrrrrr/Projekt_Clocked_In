@@ -209,7 +209,8 @@ body {
 }
 
 .bottom-nav {
-  position: fixed;
+  position: fixed; 
+  align-self: center;
   bottom: 0;
   max-width: 430px;
   width: 100%;
@@ -224,6 +225,7 @@ body {
 
 .nav-item {
   display: flex;
+  font-family: var(--font-main);
   flex-direction: column;
   align-items: center;
   text-decoration: none;
@@ -234,13 +236,15 @@ body {
 
 .nav-item.active {
   color: var(--clr-pink);
+  font-weight: 800;
 }
 
 .nav-icon {
   width: 32px;
   height: 32px;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
+
 
 
 body.welcome-page {
