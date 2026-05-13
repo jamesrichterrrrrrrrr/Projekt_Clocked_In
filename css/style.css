@@ -24,6 +24,7 @@
   --font-main:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
     sans-serif;
+}
 
 .big-beautiful-button {
   width: 100%;
@@ -308,15 +309,25 @@ body.welcome-page .big-beautiful-button {
 }
 
 /* immer genau in der jeweiligen Ecke des Bildschirms */
-.bg-top    { top: 0;    right: 0;    }
-.bg-bottom { bottom: 0; left: 0;     }
+.bg-top {
+  top: 0;
+  right: 0;
+}
+.bg-bottom {
+  bottom: 0;
+  left: 0;
+}
 
 /* etwas kleiner auf sehr kleinen Bildschirmen */
 @media (max-width: 420px) {
-  .bg-shape { width: min(420px, 80vw); }
+  .bg-shape {
+    width: min(420px, 80vw);
+  }
 }
 @media (min-width: 1200px) {
-  .bg-shape { width: min(920px, 45vw); }
+  .bg-shape {
+    width: min(920px, 45vw);
+  }
 }
 
 .main-content {
@@ -408,6 +419,113 @@ body.welcome-page .big-beautiful-button {
   font-weight: 600;
   text-decoration: none;
 }
+
+/* HOME PAGE */
+.welcome-section {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.welcome-section h1 {
+  font-size: 3.8rem;
+  color: var(--clr-purple);
+  line-height: 1.05;
+}
+
+.smiley {
+  width: 90px;
+  margin-top: 7px;
+}
+
+.timer-uhr {
+  width: 90px;
+  margin: 0 auto 16px;
+  display: block;
+}
+.timer-card {
+  box-shadow: 0 8px 24px rgba(6, 5, 10, 0.1);
+}
+
+.timer-row {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 12px;
+}
+
+.timer-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.timer-display {
+  font-size: 3.5rem;
+  color: var(--clr-pink);
+  font-family: var(--font-display);
+  font-weight: 900;
+}
+
+.timer-label {
+  font-weight: 700;
+  font-size: 1.7rem;
+  margin-bottom: 8px;
+  color: var(--clr-white);
+}
+
+.info-card {
+  box-shadow: 0 8px 24px rgba(6, 5, 10, 0.1);
+}
+.info-card h3 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--clr-red);
+  margin-top: 8px;
+}
+
+.info-card.pink p {
+  color: var(--clr-red);
+  font-weight: 700;
+}
+
+.info-card.green p {
+  color: var(--clr-purple);
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.info-card.green {
+  border: none;
+  cursor: pointer;
+  transition:
+    transform 180ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    box-shadow 180ms ease;
+  will-change: transform, box-shadow;
+}
+
+.info-card.green:hover,
+.info-card.green:focus {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 18px 40px rgba(6, 5, 10, 0.18);
+}
+
+.info-card.green:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 6px 18px rgba(6, 5, 10, 0.1);
+}
+
+.manual-plus {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--clr-purple);
+  line-height: 1;
+}
+
 /* TIMESHEET PAGE */
 .tab-group {
   display: flex;
