@@ -1,68 +1,75 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClockedIn - Home</title>
-    
     <link rel="stylesheet" href="https://use.typekit.net/kxt6usx.css">
-    
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
     <div class="app-container">
+
         <header class="main-header">
-            <div class="logo">CLOCKED IN</div>
-            <div class="location-tag">Standort Chur</div>
+            <img src="svgs/logo.svg" class="logo" alt="ClockedIn Logo">
+            <span class="location-tag">Standort Chur</span>
         </header>
 
         <section class="welcome-section">
-            <h1>Ready, Captain?</h1>
+            <h1>Ready,<br>steady?</h1>
+            <img src="svgs/smiley.svg" class="smiley" alt="">
         </section>
 
         <div class="timer-card">
-            <div class="placeholder-circle"></div>
+            <img src="svgs/uhrklein.svg" class="timer-uhr" alt="">
             <p class="timer-label">Lock in!</p>
-            <div class="timer-display">00 00 00</div>
-            <div class="timer-units">
-                <span>Stunden</span>
-                <span>Minuten</span>
-                <span>Sekunden</span>
+            <div class="timer-row">
+                <div class="timer-col">
+                    <span class="timer-display">00</span>
+                    <span class="timer-unit">Stunden</span>
+                </div>
+                <div class="timer-col">
+                    <span class="timer-display">00</span>
+                    <span class="timer-unit">Minuten</span>
+                </div>
+                <div class="timer-col">
+                    <span class="timer-display">00</span>
+                    <span class="timer-unit">Sekunden</span>
+                </div>
             </div>
         </div>
 
-        <button class="big-beautiful-button">Clock in</button>
+        <button class="big-beautiful-button">Clock In</button>
 
         <div class="info-grid">
             <div class="info-card pink">
                 <p>Gesamt heute:</p>
                 <h3>0H 30M</h3>
             </div>
-            <div class="info-card green">
-                <div class="plus-icon" style="font-size: 2rem;">+</div>
-                <p>manuell erfassen</p>
-            </div>
+            <button class="info-card green">
+                <span class="manual-plus">+</span>
+                <p>manuell<br>erfassen</p>
+            </button>
         </div>
 
         <nav class="bottom-nav">
-            <a href="#" class="nav-item active">
-                <div class="nav-icon"></div>
-                <span>Home</span>
+            <a href="home.html" class="nav-item active">
+                <img src="svgs/home.svg" class="nav-icon" alt="">
+                Home
             </a>
-            <a href="#" class="nav-item">
-                <div class="nav-icon"></div>
-                <span>Übersicht</span>
+            <a href="uebersicht.html" class="nav-item">
+                <img src="svgs/pie_chart.svg" class="nav-icon" alt="">
+                Übersicht
             </a>
-            <a href="#" class="nav-item">
-                <div class="nav-icon"></div>
-                <span>Admin</span>
-            </a>
-            <a href="#" class="nav-item">
-                <div class="nav-icon"></div>
-                <span>Einstellungen</span>
+            <a href="einstellungen.html" class="nav-item">
+                <img src="svgs/settings.svg" class="nav-icon" alt="">
+                Einstellungen
             </a>
         </nav>
+
     </div>
 </body>
+
 </html>
