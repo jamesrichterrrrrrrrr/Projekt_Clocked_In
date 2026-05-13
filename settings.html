@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClockedIn - Einstellungen</title>
+    <link rel="stylesheet" href="https://use.typekit.net/kxt6usx.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="app-container">
+
+        <header class="main-header">
+            <img src="svgs/logo.svg" class="logo" alt="ClockedIn Logo">
+            <span class="location-tag">Standort Chur</span>
+        </header>
+
+        <h1 class="settings-headline">Settings</h1>
+
+        <div class="profile-card">
+            <div class="avatar" id="avatar">😎</div>
+            <div class="profile-info">
+                <p class="profile-name" id="profile-name-display">Max Muster</p>
+                <p class="profile-role">Mitarbeiter · Kita</p>
+            </div>
+        </div>
+
+        <div class="settings-form">
+            <label class="settings-label">Vorname</label>
+            <div class="input-container">
+                <input type="text" id="firstname" placeholder="Vorname" value="Max">
+            </div>
+
+            <label class="settings-label">Nachname</label>
+            <div class="input-container">
+                <input type="text" id="lastname" placeholder="Nachname" value="Muster">
+            </div>
+
+            <label class="settings-label">E-Mail</label>
+            <div class="input-container">
+                <input type="email" id="email" placeholder="E-Mail" value="max@kita-chur.ch">
+            </div>
+        </div>
+
+        <button class="big-beautiful-button" id="save-btn">Speichern</button>
+
+        <!-- Easter Egg -->
+        <div class="easter-overlay" id="easter-overlay">
+            <div class="easter-card">
+                <div class="easter-anim" id="easter-anim">🕐</div>
+                <h2>Geheimmodus!</h2>
+                <p id="easter-text">Du hast zu viel Zeit. Zur Strafe musst du jetzt 10 Sekunden warten.</p>
+                <div class="easter-countdown" id="easter-countdown">10</div>
+                <button class="big-beautiful-button" id="easter-close" disabled>Ich akzeptiere mein Schicksal</button>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-item">
+                <img src="svgs/home.svg" class="nav-icon" alt="">
+                Home
+            </a>
+            <a href="index.html" class="nav-item">
+                <img src="svgs/pie_chart.svg" class="nav-icon" alt="">
+                Übersicht
+            </a>
+            <a href="einstellungen.html" class="nav-item active">
+                <img src="svgs/settings.svg" class="nav-icon" alt="">
+                Einstellungen
+            </a>
+        </nav>
+
+    </div>
+
+    <script>
+        // Name live updaten
+        ['firstname', 'lastname'].forEach(id => {
+            document.getElementById(id).addEventListener('input', () => {
+                const first = document.getElementById('firstname').value;
+                const last = document.getElementById('lastname').value;
+                document.getElementById('profile-name-display').textContent = `${first} ${last}`;
+            });
+        });
+
+        // Speichern
+        document.getElementById('save-btn').addEventListener('click', () => {
+            document.getElementById('save-btn').textContent = '✓ Gespeichert!';
+            setTimeout(() => document.getElementById('save-btn').textContent = 'Speichern', 2000);
+        });
+
+        // Easter Egg — 5x tippen
+        let tapCount = 0;
+        document.querySelector('.profile-card').addEventListener('click', () => {
+            tapCount++;
+            if (tapCount >= 5) {
+                tapCount = 0;
+                document.getElementById('easter-overlay').classList.add('active');
+                startEaster();
+            }
+        });
+
+        function startEaster() {
+            const btn = document.getElementById('easter-close');
+            const countdown = document.getElementById('easter-countdown');
+            const anim = document.getElementById('easter-anim');
+            const clocks = ['🕐', '🕑', '🕒', '🕓', '🕔', '🕕', '🕖', '🕗', '🕘', '🕙', '🕚', '🕛'];
+            btn.disabled = true;
+            let seconds = 10;
+            let clockIndex = 0;
+            countdown.textContent = seconds;
+
+            const interval = setInterval(() => {
+                seconds--;
+                clockIndex = (clockIndex + 1) % clocks.length;
+                anim.textContent = clocks[clockIndex];
+                countdown.textContent = seconds;
+                if (seconds <= 0) {
+                    clearInterval(interval);
+                    countdown.textContent = '🎉';
+                    document.getElementById('easter-text').textContent = 'Glückwunsch. Du hast 10 Sekunden deines Lebens verschwendet. Wir sind stolz auf dich.';
+                    btn.disabled = false;
+                }
+            }, 1000);
+        }
+
+        document.getElementById('easter-close').addEventListener('click', () => {
+            document.getElementById('easter-overlay').classList.remove('active');
+        });
+    </script>
+</body>
+
+</html>
