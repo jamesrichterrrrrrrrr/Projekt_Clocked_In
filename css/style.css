@@ -605,7 +605,23 @@ body.welcome-page .big-beautiful-button {
   font-size: 0.75rem;
   font-weight: 700;
   padding: 4px 12px;
-  border-radius: 20px;
+  border-radius: 40px;
+}
+
+/* Tag-Varianten */
+.entry-tag.kita {
+  background-color: var(--clr-purple);
+  color: var(--clr-white);
+}
+
+.entry-tag.buero {
+  background-color: var(--clr-green);
+  color: var(--clr-neutral-600);
+}
+
+.entry-tag.chilling {
+  background-color: var(--clr-pink);
+  color: var(--clr-white);
 }
 
 .entry-sub {
