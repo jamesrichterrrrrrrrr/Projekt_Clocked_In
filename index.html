@@ -69,7 +69,7 @@
             </a>
         </nav>
 
-        <!-- Activity Modal -->
+        <!-- Activity Modal (Clock-In) -->
         <div class="activity-overlay" id="activity-overlay">
             <div class="activity-modal">
                 <div class="activity-header">
@@ -81,10 +81,64 @@
                     <button class="activity-btn" data-activity="Kita">Kita</button>
                     <button class="activity-btn" data-activity="Büro">Büro</button>
                     <button class="activity-btn" data-activity="Meeting">Meeting</button>
-                    <button class="activity-btn" data-activity="Clean Up">Clean Up</button>
+                    <button class="activity-btn" data-activity="Cleanup">Cleanup</button>
                 </div>
 
                 <button class="big-beautiful-button" id="activity-confirm" disabled>Let's Go</button>
+            </div>
+        </div>
+
+        <!-- Clock-Out Modal -->
+        <div class="clockout-overlay" id="clockout-overlay">
+            <div class="clockout-modal">
+                <div class="clockout-header">
+                    <h2>Aktivität Beenden</h2>
+                    <button class="clockout-close" id="clockout-close" aria-label="Schließen">×</button>
+                </div>
+
+                <div class="clockout-time">
+                    <div class="co-col">
+                        <span class="co-val" id="co-hours">00</span>
+                        <span class="co-unit">Stunden</span>
+                    </div>
+                    <div class="co-col">
+                        <span class="co-val" id="co-minutes">00</span>
+                        <span class="co-unit">Minuten</span>
+                    </div>
+                    <div class="co-col">
+                        <span class="co-val" id="co-seconds">00</span>
+                        <span class="co-unit">Sekunden</span>
+                    </div>
+                </div>
+
+                <div class="clockout-pills">
+                    <button class="co-pill" data-activity="Kita">Kita</button>
+                    <button class="co-pill" data-activity="Büro">Büro</button>
+                    <button class="co-pill" data-activity="Cleanup">Cleanup</button>
+                    <button class="co-pill" data-activity="Meeting">Meeting</button>
+                </div>
+
+                <div class="clockout-circle-wrap">
+                    <svg class="co-ring" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+                        <!-- weißer Ring -->
+                        <circle cx="120" cy="120" r="100" fill="none" stroke="#ffffff" stroke-width="14" />
+                        <!-- schwarzer Bogen (von rechts unten zur unteren Mitte) -->
+                        <path d="M 220 120 A 100 100 0 0 1 120 220" fill="none" stroke="#06050a" stroke-width="14"
+                            stroke-linecap="round" />
+                        <!-- Grüner Punkt (von) -->
+                        <circle cx="220" cy="120" r="16" fill="#dbf58a" stroke="#06050a" stroke-width="4" />
+                        <!-- Pinker Punkt (bis) -->
+                        <circle cx="120" cy="220" r="16" fill="#fea3e0" stroke="#06050a" stroke-width="4" />
+                    </svg>
+                    <div class="co-circle-content">
+                        <span class="co-label">von</span>
+                        <input type="time" class="co-time co-time-from" id="co-from" value="14:30">
+                        <span class="co-label">bis</span>
+                        <input type="time" class="co-time co-time-to" id="co-to" value="18:15">
+                    </div>
+                </div>
+
+                <button class="big-beautiful-button" id="clockout-save">Speichern</button>
             </div>
         </div>
 
@@ -103,6 +157,17 @@
         const tMinutes = document.getElementById('t-minutes');
         const tSeconds = document.getElementById('t-seconds');
 
+        // Clock-Out Modal Elemente
+        const clockoutOverlay = document.getElementById('clockout-overlay');
+        const clockoutClose = document.getElementById('clockout-close');
+        const clockoutSave = document.getElementById('clockout-save');
+        const coHours = document.getElementById('co-hours');
+        const coMinutes = document.getElementById('co-minutes');
+        const coSeconds = document.getElementById('co-seconds');
+        const coFrom = document.getElementById('co-from');
+        const coTo = document.getElementById('co-to');
+        const coPills = document.querySelectorAll('.co-pill');
+
         let selectedActivity = null;
         let timerInterval = null;
         let startTime = null;
@@ -110,13 +175,13 @@
         // Clock-In/Out Button
         clockBtn.addEventListener('click', () => {
             if (app.classList.contains('clocked-in')) {
-                clockOut();
+                openClockoutModal();
             } else {
                 overlay.classList.add('active');
             }
         });
 
-        // Modal schließen
+        // ----- Clock-In Modal -----
         closeBtn.addEventListener('click', closeModal);
         overlay.addEventListener('click', (e) => {
             if (e.target === overlay) closeModal();
@@ -129,7 +194,6 @@
             confirmBtn.disabled = true;
         }
 
-        // Aktivität auswählen
         activityBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 activityBtns.forEach(b => b.classList.remove('selected'));
@@ -139,7 +203,6 @@
             });
         });
 
-        // Let's Go → Clock In starten
         confirmBtn.addEventListener('click', () => {
             clockIn(selectedActivity);
             closeModal();
@@ -163,6 +226,7 @@
             tHours.textContent = '00';
             tMinutes.textContent = '00';
             tSeconds.textContent = '00';
+            selectedActivity = null;
         }
 
         function updateTimer() {
@@ -174,6 +238,74 @@
             tMinutes.textContent = String(m).padStart(2, '0');
             tSeconds.textContent = String(s).padStart(2, '0');
         }
+
+        // ----- Clock-Out Modal -----
+        function openClockoutModal() {
+            // aktuelle Zeiten setzen
+            const startDate = new Date(startTime);
+            const endDate = new Date();
+            coFrom.value = toTimeStr(startDate);
+            coTo.value = toTimeStr(endDate);
+
+            // Pille mit aktueller Aktivität vorauswählen
+            coPills.forEach(p => {
+                p.classList.toggle('selected', p.dataset.activity === selectedActivity);
+            });
+
+            recalcClockoutDuration();
+            clockoutOverlay.classList.add('active');
+        }
+
+        function closeClockoutModal() {
+            clockoutOverlay.classList.remove('active');
+        }
+
+        function toTimeStr(date) {
+            return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+        }
+
+        function recalcClockoutDuration() {
+            if (!coFrom.value || !coTo.value) return;
+            const [fh, fm] = coFrom.value.split(':').map(Number);
+            const [th, tm] = coTo.value.split(':').map(Number);
+            let diff = (th * 60 + tm) - (fh * 60 + fm);
+            if (diff < 0) diff += 24 * 60; // über Mitternacht
+            const h = Math.floor(diff / 60);
+            const m = diff % 60;
+            coHours.textContent = String(h).padStart(2, '0');
+            coMinutes.textContent = String(m).padStart(2, '0');
+            coSeconds.textContent = '00';
+        }
+
+        clockoutClose.addEventListener('click', closeClockoutModal);
+        clockoutOverlay.addEventListener('click', (e) => {
+            if (e.target === clockoutOverlay) closeClockoutModal();
+        });
+
+        coPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                coPills.forEach(p => p.classList.remove('selected'));
+                pill.classList.add('selected');
+                selectedActivity = pill.dataset.activity;
+                timerLabel.textContent = `${selectedActivity} seit`;
+            });
+        });
+
+        coFrom.addEventListener('input', recalcClockoutDuration);
+        coTo.addEventListener('input', recalcClockoutDuration);
+
+        clockoutSave.addEventListener('click', () => {
+            // Hier könntest du den Eintrag speichern (z.B. in localStorage / API)
+            // const entry = {
+            //     activity: selectedActivity,
+            //     from: coFrom.value,
+            //     to: coTo.value,
+            //     hours: coHours.textContent,
+            //     minutes: coMinutes.textContent
+            // };
+            closeClockoutModal();
+            clockOut();
+        });
     </script>
 </body>
 
