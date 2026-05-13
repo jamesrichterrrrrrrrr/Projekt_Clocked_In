@@ -897,9 +897,7 @@ body.welcome-page .big-beautiful-button {
   padding: 24px;
 }
 
-.clockout-overlay.active {
-  display: flex;
-}
+.clockout-overlay.active { display: flex; }
 
 .clockout-modal {
   background-color: var(--clr-purple);
@@ -941,11 +939,7 @@ body.welcome-page .big-beautiful-button {
   margin-bottom: 20px;
 }
 
-.co-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+.co-col { display: flex; flex-direction: column; align-items: center; }
 
 .co-val {
   font-family: var(--font-display);
@@ -955,10 +949,7 @@ body.welcome-page .big-beautiful-button {
   line-height: 1;
 }
 
-.co-unit {
-  font-size: 0.85rem;
-  margin-top: 4px;
-}
+.co-unit { font-size: 0.85rem; margin-top: 4px; }
 
 .clockout-pills {
   display: flex;
@@ -990,11 +981,7 @@ body.welcome-page .big-beautiful-button {
   margin: 0 auto 24px;
 }
 
-.co-ring {
-  display: block;
-  width: 100%;
-  height: auto;
-}
+.co-ring { display: block; width: 100%; height: auto; }
 
 .co-circle-content {
   position: absolute;
@@ -1006,10 +993,7 @@ body.welcome-page .big-beautiful-button {
   gap: 2px;
 }
 
-.co-label {
-  font-size: 0.95rem;
-  color: var(--clr-white);
-}
+.co-label { font-size: 0.95rem; color: var(--clr-white); }
 
 .co-time {
   background: transparent;
@@ -1024,16 +1008,9 @@ body.welcome-page .big-beautiful-button {
   padding: 2px 0;
 }
 
-.co-time-from {
-  color: var(--clr-green);
-}
-.co-time-to {
-  color: var(--clr-pink);
-}
-
-.co-time::-webkit-calendar-picker-indicator {
-  display: none;
-}
+.co-time-from { color: var(--clr-green); }
+.co-time-to { color: var(--clr-pink); }
+.co-time::-webkit-calendar-picker-indicator { display: none; }
 
 .clockout-modal .big-beautiful-button {
   margin-bottom: 0;
