@@ -41,7 +41,7 @@
             </div>
         </div>
 
-        <button class="big-beautiful-button">Clock In</button>
+<button class="big-beautiful-button" id="btn-clock-in">Clock In</button>
 
         <div class="info-grid">
             <div class="info-card pink">
@@ -68,8 +68,68 @@
                 Einstellungen
             </a>
         </nav>
+<!-- Activity Modal -->
+<div class="activity-overlay" id="activity-overlay">
+    <div class="activity-modal">
+        <div class="activity-header">
+            <h2>Choose your Hustle</h2>
+            <button class="activity-close" id="activity-close" aria-label="Schließen">×</button>
+        </div>
 
+        <div class="activity-grid">
+            <button class="activity-btn" data-activity="Kita">Kita</button>
+            <button class="activity-btn" data-activity="Büro">Büro</button>
+            <button class="activity-btn" data-activity="Meeting">Meeting</button>
+            <button class="activity-btn" data-activity="Clean Up">Clean Up</button>
+        </div>
+
+        <button class="big-beautiful-button" id="activity-confirm" disabled>Let's Go</button>
     </div>
+</div>
+    </div>
+    <script>
+        const overlay = document.getElementById('activity-overlay');
+        const clockInBtn = document.getElementById('btn-clock-in');
+        const closeBtn = document.getElementById('activity-close');
+        const confirmBtn = document.getElementById('activity-confirm');
+        const activityBtns = document.querySelectorAll('.activity-btn');
+        let selectedActivity = null;
+
+        // Modal öffnen
+        clockInBtn.addEventListener('click', () => {
+            overlay.classList.add('active');
+        });
+
+        // Modal schließen
+        closeBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closeModal();
+        });
+
+        function closeModal() {
+            overlay.classList.remove('active');
+            activityBtns.forEach(b => b.classList.remove('selected'));
+            selectedActivity = null;
+            confirmBtn.disabled = true;
+        }
+
+        // Aktivität auswählen
+        activityBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                activityBtns.forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedActivity = btn.dataset.activity;
+                confirmBtn.disabled = false;
+            });
+        });
+
+        // Bestätigen → hier kannst du dein Clock-In-Logik einbauen
+        confirmBtn.addEventListener('click', () => {
+            console.log('Clocked in als:', selectedActivity);
+            closeModal();
+            // z.B. Timer starten, Tag-Anzeige aktualisieren etc.
+        });
+    </script>
 </body>
 
 </html>
