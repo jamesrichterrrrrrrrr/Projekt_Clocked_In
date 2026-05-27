@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClockedIn - Admin Dashboard</title>
+    <link rel="stylesheet" href="https://use.typekit.net/kxt6usx.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="app-container admin-dashboard-page">
+        <header class="main-header">
+            <img src="svgs/logo.svg" class="logo" alt="ClockedIn Logo">
+            <span class="location-tag">Standort Chur</span>
+        </header>
+
+        <section class="admin-hero">
+            <h1 class="admin-headline">Admin<br>Dashboard</h1>
+        </section>
+
+        <section class="admin-location-filter">
+            <h2>Standort</h2>
+            <div class="admin-location-pills">
+                <button type="button" class="admin-pill active" data-location="chur">Chur</button>
+                <button type="button" class="admin-pill" data-location="bern">Bern</button>
+                <button type="button" class="admin-pill" data-location="zuerich">Zürich</button>
+            </div>
+        </section>
+
+        <section class="admin-unknown-section">
+            <div class="admin-section-header">
+                <h2>Unbekannte UID</h2>
+                <span class="admin-counter" id="unknown-count">0</span>
+            </div>
+
+            <div class="admin-unknown-input-row">
+                <input type="text" id="unknown-uid-input" class="admin-unknown-input" placeholder="z.B. 1638047A74BC3D">
+                <button type="button" class="admin-create-btn" id="unknown-create-btn">Als Mitarbeiter erfassen</button>
+            </div>
+
+            <div class="admin-unknown-list" id="unknown-uid-list">
+                <button type="button" class="admin-uid-chip" data-uid="1638047A74BC3D">1638047A74BC3D</button>
+            </div>
+        </section>
+
+        <section class="admin-team-list" id="admin-team-list">
+            <article class="admin-user-card green">
+                <div class="admin-user-left">
+                    <h3>Jule Buchmann <span class="admin-badge">Kita</span></h3>
+                    <p><span class="admin-status-icon">✓</span> clocked in</p>
+                </div>
+                <div class="admin-user-right"><img src="svgs/uhrklein.svg" alt="">6H 30M</div>
+            </article>
+
+            <article class="admin-user-card green">
+                <div class="admin-user-left">
+                    <h3>Kita-Rita <span class="admin-badge">Kita</span></h3>
+                    <p><span class="admin-status-icon">✓</span> clocked in</p>
+                </div>
+                <div class="admin-user-right"><img src="svgs/uhrklein.svg" alt="">6H 30M</div>
+            </article>
+
+            <article class="admin-user-card purple">
+                <div class="admin-user-left">
+                    <h3>Petra Peterson <span class="admin-badge alt">Büro</span></h3>
+                    <p><span class="admin-status-icon">✓</span> clocked in</p>
+                </div>
+                <div class="admin-user-right"><img src="svgs/uhrklein.svg" alt="">6H 30M</div>
+            </article>
+
+            <article class="admin-user-card purple">
+                <div class="admin-user-left">
+                    <h3>Kita-Rita <span class="admin-badge alt">Büro</span></h3>
+                    <p><span class="admin-status-icon">✓</span> clocked in</p>
+                </div>
+                <div class="admin-user-right"><img src="svgs/uhrklein.svg" alt="">6H 30M</div>
+            </article>
+
+            <article class="admin-user-card gray">
+                <div class="admin-user-left">
+                    <h3>Kita-Rita <span class="admin-badge pink">Chilling</span></h3>
+                    <p><span class="admin-status-icon">✕</span> clocked out</p>
+                </div>
+                <div class="admin-user-right"><img src="svgs/uhrklein.svg" alt="">--</div>
+            </article>
+        </section>
+
+        <a href="newuser.html" class="admin-fab" aria-label="Neuen Mitarbeiter erstellen">+</a>
+
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item">
+                <img src="svgs/Nav Icons/Home_Icon_Default.svg" class="nav-icon" alt="">
+                Home
+            </a>
+            <a href="stundenuebersicht.html" class="nav-item">
+                <img src="svgs/Nav Icons/Uebersicht_Icon_Default.svg" class="nav-icon" alt="">
+                Übersicht
+            </a>
+            <a href="admindashboard.html" class="nav-item active" data-role-visible="admin" hidden>
+                <img src="svgs/Nav Icons/Admin_Icon_Active.svg" class="nav-icon" alt="">
+                Admin
+            </a>
+            <a href="settings.html" class="nav-item">
+                <img src="svgs/Nav Icons/Einstellungen_Icon_Default.svg" class="nav-icon" alt="">
+                Einstellungen
+            </a>
+        </nav>
+    </div>
+
+    <script src="js/api-config.js"></script>
+    <script src="js/format.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+
+</html>

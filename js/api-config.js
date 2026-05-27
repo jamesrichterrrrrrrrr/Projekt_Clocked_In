@@ -4,6 +4,7 @@
  * Beispiel: https://deinedomain.ch oder https://deinedomain.ch/unterordner
  * Leer lassen: API-Aufrufe bleiben relativ (Seite und PHP auf derselben Domain).
  */
+/** Leer = gleiche Domain wie die HTML-Seiten. Lokal mit python -m http.server: Infomaniak-URL eintragen. */
 window.API_BASE = "";
 
 window.apiUrl = function (path) {

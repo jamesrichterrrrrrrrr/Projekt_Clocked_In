@@ -21,11 +21,11 @@
 
 <div class="profile-card">
     <div class="avatar" id="avatar">
-        <img src="svgs/uhrklein.svg" alt="Profilbild von Max Muster">
+        <img src="svgs/uhrklein.svg" alt="Profilbild">
     </div>
 
     <div class="profile-info">
-        <p class="profile-name" id="profile-name-display">Max Muster</p>
+        <p class="profile-name" id="profile-name-display">…</p>
         <span class="entry-tag buero">Büro</span>
     </div>
 </div>
@@ -33,17 +33,17 @@
         <div class="settings-form">
             <label class="settings-label">Vorname</label>
             <div class="input-container">
-                <input type="text" id="firstname" placeholder="Vorname" value="Max">
+                <input type="text" id="firstname" placeholder="Vorname" value="">
             </div>
 
             <label class="settings-label">Nachname</label>
             <div class="input-container">
-                <input type="text" id="lastname" placeholder="Nachname" value="Muster">
+                <input type="text" id="lastname" placeholder="Nachname" value="">
             </div>
 
             <label class="settings-label">E-Mail</label>
             <div class="input-container">
-                <input type="email" id="email" placeholder="E-Mail" value="max@kita-chur.ch">
+                <input type="email" id="email" placeholder="E-Mail" value="">
             </div>
         </div>
 
@@ -77,61 +77,10 @@
 
     </div>
 
-    <script>
-        // Name live updaten
-        ['firstname', 'lastname'].forEach(id => {
-            document.getElementById(id).addEventListener('input', () => {
-                const first = document.getElementById('firstname').value;
-                const last = document.getElementById('lastname').value;
-                document.getElementById('profile-name-display').textContent = `${first} ${last}`;
-            });
-        });
-
-        // Speichern
-        document.getElementById('save-btn').addEventListener('click', () => {
-            document.getElementById('save-btn').textContent = '✓ Gespeichert!';
-            setTimeout(() => document.getElementById('save-btn').textContent = 'Speichern', 2000);
-        });
-
-        // Easter Egg — 5x tippen
-        let tapCount = 0;
-        document.querySelector('.profile-card').addEventListener('click', () => {
-            tapCount++;
-            if (tapCount >= 5) {
-                tapCount = 0;
-                document.getElementById('easter-overlay').classList.add('active');
-                startEaster();
-            }
-        });
-
-        function startEaster() {
-            const btn = document.getElementById('easter-close');
-            const countdown = document.getElementById('easter-countdown');
-            const anim = document.getElementById('easter-anim');
-            const clocks = ['🕐', '🕑', '🕒', '🕓', '🕔', '🕕', '🕖', '🕗', '🕘', '🕙', '🕚', '🕛'];
-            btn.disabled = true;
-            let seconds = 10;
-            let clockIndex = 0;
-            countdown.textContent = seconds;
-
-            const interval = setInterval(() => {
-                seconds--;
-                clockIndex = (clockIndex + 1) % clocks.length;
-                anim.textContent = clocks[clockIndex];
-                countdown.textContent = seconds;
-                if (seconds <= 0) {
-                    clearInterval(interval);
-                    countdown.textContent = '🎉';
-                    document.getElementById('easter-text').textContent = 'Glückwunsch. Du hast 10 Sekunden deines Lebens verschwendet. Wir sind stolz auf dich.';
-                    btn.disabled = false;
-                }
-            }, 1000);
-        }
-
-        document.getElementById('easter-close').addEventListener('click', () => {
-            document.getElementById('easter-overlay').classList.remove('active');
-        });
-    </script>
+    <script src="js/api-config.js"></script>
+    <script src="js/format.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/settings.js"></script>
 </body>
 
 </html>

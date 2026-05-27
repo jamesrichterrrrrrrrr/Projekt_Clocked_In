@@ -125,6 +125,22 @@
 
 <script src="js/api-config.js"></script>
 <script>
+  function normalizeCardId(value) {
+    return String(value || "")
+      .trim()
+      .replace(/[^a-zA-Z0-9]/g, "")
+      .toUpperCase();
+  }
+
+  function applyCardPrefillFromQuery() {
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get('card_id');
+    if (!raw) return;
+    const cardIdEl = document.getElementById('card_id');
+    if (!cardIdEl) return;
+    cardIdEl.value = normalizeCardId(raw);
+  }
+
   // helper Toast
   let toastTimer = null;
   function showToast(msg, type = 'error') {
@@ -239,6 +255,8 @@
       submitForm();
     });
   }
+
+  applyCardPrefillFromQuery();
 </script>
 </body>
 </html>

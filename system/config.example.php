@@ -6,6 +6,9 @@
  *   „MySQL/MariaDB-Server“ / Hostname (z. B. XXXX.myd.infomaniak.com) als DB_HOST verwenden,
  *   wenn localhost nicht funktioniert.
  *
+ * Optional – ESP32 api/load.php absichern (Header X-Device-Key):
+ *   SetEnv DEVICE_API_KEY "dein-geheimer-schluessel"
+ *
  * Optional statt Datei: in .htaccess (Apache) z. B.:
  *   SetEnv DB_HOST "XXXX.myd.infomaniak.com"
  *   SetEnv DB_NAME "deine_datenbank"

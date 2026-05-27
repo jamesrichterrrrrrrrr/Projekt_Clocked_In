@@ -1,21 +1,18 @@
 <?php
-// index.php (API that returns JSON about the logged-in user)
-require_once __DIR__ . '/../system/cors.php';
+declare(strict_types=1);
 
-ini_set('session.cookie_httponly', '1');
-clocked_apply_cross_origin_session_cookie();
-session_start();
+require_once __DIR__ . '/../system/bootstrap.php';
 
-header('Content-Type: application/json');
+$userId = clocked_require_user_id();
+$user = clocked_fetch_user($pdo, $userId);
 
-if (!isset($_SESSION['user_id'])) {
-    http_response_code(401);
-    echo json_encode(["error" => "Unauthorized"]);
-    exit;
+if (!$user) {
+    clocked_json(['error' => 'User not found'], 404);
 }
 
-echo json_encode([
-    "status"  => "success",
-    "user_id" => $_SESSION['user_id'],
-    "email"   => $_SESSION['email'],
+clocked_json([
+    'status'  => 'success',
+    'user_id' => $userId,
+    'email'   => $_SESSION['email'] ?? $user['email'],
+    'user'    => clocked_user_payload($user),
 ]);
