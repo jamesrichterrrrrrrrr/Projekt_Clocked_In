@@ -8,28 +8,33 @@
 * **Team Physical Computing:** Len Wilpert & Nils Kindlimann
 * **Team WebApp:** Jule Buchmann & James Richter
 
-Clocked In ist eine webbasierte Zeiterfassungsanwendung für die Technikauslei- ähhh Kita. Mitarbeitende können ihre Arbeitszeiten digital erfassen, laufende Tätigkeiten dokumentieren und ihre geleisteten Stunden einsehen. Zusätzlich unterstützt das System die Anmeldung per NFC-Karte über einen ESP32-Mikrocontroller.
+Clocked-In ist eine webbasierte Zeiterfassungsanwendung für die Technikauslei- ähhh Kita. Mitarbeitende können ihre Arbeitszeiten digital erfassen, laufende Tätigkeiten dokumentieren und ihre geleisteten Stunden einsehen. Zusätzlich unterstützt das System die Anmeldung per NFC-Karte über einen ESP32-Mikrocontroller.
 
 Das Projekt wurde im Rahmen des Moduls Interaktive Medien 4 entwickelt und verbindet Webentwicklung, Datenbankintegration, Benutzerverwaltung und Physical Computing.
  
 * **WebApp:** https://im4.nkstudios.ch/
 * **Video-Dokumentation:** 
-  
-\[*Bilder / GIFs (optional)*\]
 
 ## UX & Konzeption
 
 *In diesem Teil werden die gemeinsamen Schritte aus der UX-Abgabe dokumentiert, damit sich hier alles vollständig an einem Ort befindet (betrifft WebApp und Physical Computing)*
 
-###Figma
+### Figma
 [Link zum Figma](https://www.figma.com/design/cZT0irT6QBE3z2AkaFgU50/IM-4-%E2%80%93-App-Konzeption-Nils-Len-James-Jule?node-id=78-325&t=YV1OdTmVDKRQVCaU-1)
 
-###User Flow \+ Screen Flow** 
-  <img width="1003" height="954" alt="Screenshot 2026-06-12 at 11 28 22" src="https://github.com/user-attachments/assets/f7007292-49ca-49af-83c4-5ad53be62e9f" />
+### User Flow \+ Screen Flow
+  <img width="1000" height="954" alt="Screenshot 2026-06-12 at 11 28 22" src="https://github.com/user-attachments/assets/f7007292-49ca-49af-83c4-5ad53be62e9f" />
 
-* ggf. weitere Ergänzungen
-* *Welche Features waren angedacht?*
-* *Welche Features wurden nicht umgesetzt? (Warum)*
+### Mock-Up
+<img width="1000" height="740" alt="Preview Mockup" src="https://github.com/user-attachments/assets/d8c6c373-c48a-4200-bcd4-1114597648c7" />
+
+#### Geplante Kernfeatures (Von Beginn an angedacht):
+* Vollständige Zeiterfassung: Inklusive eines direkt gebrauchsfertigen PDF-Exports.
+* Rollensystem: Eine klare Trennung und Rechteverteilung zwischen regulären User:innen und Admins.
+
+#### Spontane Erweiterungen (Während der Entwicklung implementiert):
+* Dark Mode: Für eine angenehmere Nutzung bei unterschiedlichen Lichtverhältnissen.
+* Arbeitszeitlimiten: Zur besseren Kontrolle und Einhaltung von maximalen Arbeitszeiten.
 
 ## Setup
 
@@ -70,13 +75,13 @@ Das Projekt wurde im Rahmen des Moduls Interaktive Medien 4 entwickelt und verbi
 
 ## Known bugs
 
-* Was funktioniert noch nicht einwandfrei?  
-* Was ist uns aufgefallen bei der Entwicklung?  
+* Was funktioniert noch nicht einwandfrei?
+* Was ist uns aufgefallen bei der Entwicklung?
 * Was könnte noch verbessert werden?
 
 ## Umsetzungsprozess
 
-* **Reflexion / Erfahrung / Lernfortschritt:** *Was haben wir gelernt? Würden wir es nochmal genauso machen? Was war gut, was war schlecht?*  
+* **Reflexion / Erfahrung / Lernfortschritt:** *Was haben wir gelernt? Würden wir es nochmal genauso machen? Was war gut, was war schlecht?*
 * **Herausforderungen & Lösungen:** \[*Verworfene Ansätze, Fehler, Umplanungen*\]  
-* **KI-Einsatz:** *Dokumentation der verwendeten KI-Tools und deren Nutzen (KI ist nicht verboten)*  
+* **KI-Einsatz:** Beim Erstellen von Mock-Ups mit Hilfe von *Figma Make* wurde schnell klar, dass die KI trotz verschiedener Prompts meist das selbe Design mit nur dezenten Unterschieden ausspuckt. Der grösste gemeinsame Nenner bei allen *Figma Make*-Designs: langweilig!
 * **Fazit:** …
