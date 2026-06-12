@@ -4,15 +4,17 @@
 
 * **Modul:** Interaktive Medien IV an der Fachhochschule Graubünden (FS26)  
 * **Themenfeld:** IoT-Applikation zum Thema Eltern mit kleinen Kindern  
-* **Name des Projekts:** \[*Clocked-In*\]   
-* **Team Physical Computing:** \[*Len Wilpert & Nils Kindlimann*\]   
-* **Team WebApp:** \[*Jule Buchmann & James Richter*\]
+* **Name des Projekts:** Clocked-In
+* **Team Physical Computing:** Len Wilpert & Nils Kindlimann
+* **Team WebApp:** Jule Buchmann & James Richter
 
 Clocked In ist eine webbasierte Zeiterfassungsanwendung für die Technikauslei- ähhh Kita. Mitarbeitende können ihre Arbeitszeiten digital erfassen, laufende Tätigkeiten dokumentieren und ihre geleisteten Stunden einsehen. Zusätzlich unterstützt das System die Anmeldung per NFC-Karte über einen ESP32-Mikrocontroller.
 
 Das Projekt wurde im Rahmen des Moduls Interaktive Medien 4 entwickelt und verbindet Webentwicklung, Datenbankintegration, Benutzerverwaltung und Physical Computing.
  
-
+* **WebApp:** https://im4.nkstudios.ch/
+* **Video-Dokumentation:** 
+  
 \[*Bilder / GIFs (optional)*\]
 
 ### UX & Konzeption
