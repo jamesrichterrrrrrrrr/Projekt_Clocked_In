@@ -30,8 +30,8 @@ Das Projekt wurde im Rahmen des Moduls Interaktive Medien 4 entwickelt und verbi
 
 #### Geplante Kernfeatures (Von Beginn an angedacht):
 
-**Mitarbeitende**
-*⁠ Registrierung und Login
+*Mitarbeitende*
+* Registrierung und Login
 * Zeiterfassung per Clock In / Clock Out
 *⁠ Auswahl verschiedener Tätigkeiten
 *⁠ ⁠Anzeige der aktuell geleisteten Arbeitszeit
@@ -39,11 +39,11 @@ Das Projekt wurde im Rahmen des Moduls Interaktive Medien 4 entwickelt und verbi
 * ⁠Persönliche Einstellungen
 * Direkt gebrauchsfertige PDF-Exports.
 
-**Administration**
-•⁠  ⁠Benutzerverwaltung
-•⁠  ⁠Erstellung neuer Benutzer*innen
-•⁠  ⁠Rollenverwaltung
-•⁠  ⁠Standortverwaltung
+*Administration*
+* Benutzerverwaltung
+* ⁠Erstellung neuer Benutzer*innen
+* Rollenverwaltung
+* Standortverwaltung
 
 #### Spontane Erweiterungen (Während der Entwicklung implementiert):
 * Dark Mode: Für eine angenehmere Nutzung bei unterschiedlichen Lichtverhältnissen.
