@@ -33,9 +33,9 @@ Das Projekt wurde im Rahmen des Moduls Interaktive Medien 4 entwickelt und verbi
 *Mitarbeitende*
 * Registrierung und Login
 * Zeiterfassung per Clock In / Clock Out
-*⁠ Auswahl verschiedener Tätigkeiten
-*⁠ ⁠Anzeige der aktuell geleisteten Arbeitszeit
-*⁠ Übersicht über erfasste Arbeitsstunden
+* Auswahl verschiedener Tätigkeiten
+* ⁠Anzeige der aktuell geleisteten Arbeitszeit
+* Übersicht über erfasste Arbeitsstunden
 * ⁠Persönliche Einstellungen
 * Direkt gebrauchsfertige PDF-Exports.
 
