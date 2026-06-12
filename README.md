@@ -22,7 +22,9 @@ Das Projekt wurde im Rahmen des Moduls Interaktive Medien 4 entwickelt und verbi
 *In diesem Teil werden die gemeinsamen Schritte aus der UX-Abgabe dokumentiert, damit sich hier alles vollständig an einem Ort befindet (betrifft WebApp und Physical Computing)*
 
 * **Figma:** [Link zum Figma](https://www.figma.com/design/cZT0irT6QBE3z2AkaFgU50/IM-4-%E2%80%93-App-Konzeption-Nils-Len-James-Jule?node-id=78-325&t=YV1OdTmVDKRQVCaU-1)
-* **User Flow \+ Screen Flow** (Screenshot aus Figma)  
+* **User Flow \+ Screen Flow** 
+  <img width="1003" height="954" alt="Screenshot 2026-06-12 at 11 28 22" src="https://github.com/user-attachments/assets/f7007292-49ca-49af-83c4-5ad53be62e9f" />
+
 * ggf. weitere Ergänzungen
 * *Welche Features waren angedacht?*
 * *Welche Features wurden nicht umgesetzt? (Warum)*
