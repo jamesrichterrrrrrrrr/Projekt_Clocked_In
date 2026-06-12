@@ -29,8 +29,21 @@ Das Projekt wurde im Rahmen des Moduls Interaktive Medien 4 entwickelt und verbi
 <img width="1000" height="740" alt="Preview Mockup" src="https://github.com/user-attachments/assets/d8c6c373-c48a-4200-bcd4-1114597648c7" />
 
 #### Geplante Kernfeatures (Von Beginn an angedacht):
-* Vollständige Zeiterfassung: Inklusive eines direkt gebrauchsfertigen PDF-Exports.
-* Rollensystem: Eine klare Trennung und Rechteverteilung zwischen regulären User:innen und Admins.
+
+**Mitarbeitende**
+*⁠ Registrierung und Login
+* Zeiterfassung per Clock In / Clock Out
+*⁠ Auswahl verschiedener Tätigkeiten
+*⁠ ⁠Anzeige der aktuell geleisteten Arbeitszeit
+*⁠ Übersicht über erfasste Arbeitsstunden
+* ⁠Persönliche Einstellungen
+* Direkt gebrauchsfertige PDF-Exports.
+
+**Administration**
+•⁠  ⁠Benutzerverwaltung
+•⁠  ⁠Erstellung neuer Benutzer*innen
+•⁠  ⁠Rollenverwaltung
+•⁠  ⁠Standortverwaltung
 
 #### Spontane Erweiterungen (Während der Entwicklung implementiert):
 * Dark Mode: Für eine angenehmere Nutzung bei unterschiedlichen Lichtverhältnissen.
