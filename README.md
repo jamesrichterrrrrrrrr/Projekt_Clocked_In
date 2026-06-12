@@ -17,7 +17,7 @@ Das Projekt wurde im Rahmen des Moduls Interaktive Medien 4 entwickelt und verbi
   
 \[*Bilder / GIFs (optional)*\]
 
-### UX & Konzeption
+## UX & Konzeption
 
 *In diesem Teil werden die gemeinsamen Schritte aus der UX-Abgabe dokumentiert, damit sich hier alles vollständig an einem Ort befindet (betrifft WebApp und Physical Computing)*
 
@@ -27,12 +27,12 @@ Das Projekt wurde im Rahmen des Moduls Interaktive Medien 4 entwickelt und verbi
 * *Welche Features waren angedacht?*
 * *Welche Features wurden nicht umgesetzt? (Warum)*
 
-### Setup
+## Setup
 
 * **WebApp:** [Link zur Website](http://link.zur.website)  
 * **Video-Dokumentation:** [Link zum Video auf Youtube](http://link.zum.video) 
 
-#### Installationsanleitung WebApp
+### Installationsanleitung WebApp
 
 ***verständliche** Schritt-für-Schritt-Anleitung für Aussenstehende, um das Projekt zu klonen und auf einem eigenen Server zu installieren*
 
@@ -43,7 +43,7 @@ Das Projekt wurde im Rahmen des Moduls Interaktive Medien 4 entwickelt und verbi
 5. *…*  
 6. *Wie nehme ich das physische Artefakt in Betrieb?*
 
-#### Bauanleitung Physical Computing
+### Bauanleitung Physical Computing
 
 * ***Was muss ich wie bauen, verbinden, installieren?***  
 * *ergänze: **Komponentenplan** (betrifft Physical Computing, vgl. Slides Kapitel 15): Schaubild enthält*  
