@@ -133,7 +133,7 @@ Zur Reproduzierbarkeit hier das exakte Pin-Mapping:
 ## Umsetzungsprozess
 
 ### Reflexion
-Zu Beginn war geplant, die Zuordnung von Karten zu Namen sowie die Arbeitszeitberechnung (millis()) lokal auf dem ESP32 zu speichern. Es stellte sich jedoch als enorm unflexibel heraus, da bei jedem neuen Kita-Kind der Code neu geflasht werden musste. Der grösste Lernfortschritt war die Umstellung auf eine "Thin Client"-Architektur, bei der das PHP-Skript die gesamte Logik übernimmt.
+Zu Beginn war geplant, die Zuordnung von Karten zu Namen sowie die Arbeitszeitberechnung (millis()) lokal auf dem ESP32 zu speichern. Es stellte sich jedoch als enorm unflexibel heraus, da bei jeder neu hinzugefügten Karte der Code neu geflasht werden musste. Der grösste Lernfortschritt war die Umstellung auf eine "Thin Client"-Architektur, bei der das PHP-Skript die gesamte Logik übernimmt.
   
 ### Herausforderungen & Lösungen
 Das Hinzufügen noch nicht registrierter Karten war mühsam. Die Lösung: Das PHP-Skript fängt unbekannte UIDs ab, speichert sie in einer separaten Tabelle und sendet dem Terminal die Aktion "Unbekannt". Der ESP32 reagiert daraufhin mit einem speziellen blauen UI und zeigt die UID zum einfachen Abtippen im Web an.
