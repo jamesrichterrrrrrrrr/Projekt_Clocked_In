@@ -77,13 +77,357 @@ Für das physische Terminal lag der Fokus auf sofortigem, klarem Audio-Visuellen
 
 ### Installationsanleitung WebApp
 
-#### Ablauf
-1. *Was benötige ich an Infrastruktur?*  
-2. *Was muss ich auf meinem Webserver installieren?*  
-3. *Wie kann ich die Datenbank importieren?*  
-4. *Wo muss ich die DB-Credentials eintragen?*  
-5. *…*  
-6. *Wie nehme ich das physische Artefakt in Betrieb?*
+### 1. Was benötige ich an Infrastruktur?
+
+| Komponente | Anforderung |
+|------------|------------|
+| **Webhosting** | Apache/Nginx mit **PHP 8.x**, PDO/MySQL, HTTPS |
+| **Datenbank** | MySQL/MariaDB (z. B. Hostpoint, Infomaniak) |
+| **Domain** | z. B. `im4.nkstudios.ch` → Document Root `/web` |
+| **Optional lokal** | PHP CLI (`php -S`), Node/npm nur für `npm run dev` |
+| **Hardware** | ESP32-C6 + PN532 NFC-Reader, WLAN 2,4 GHz |
+
+Kein Node.js-Server in Produktion nötig – statische HTML/JS/CSS + PHP-API.
+
+---
+
+### 2. Was muss ich auf meinem Webserver installieren?
+
+Auf dem Hosting reicht standardmässig:
+
+- **PHP 8.0+** mit Extensions: `pdo_mysql`, `json`, `session`
+- **MySQL/MariaDB** (Datenbank beim Hoster anlegen)
+- **Apache** mit `.htaccess`-Unterstützung (optional für `SetEnv`)
+
+**Nicht** auf den Server hochladen:
+
+- `.git/`, `.vscode/`, `node_modules/`, `hardware/`, `scripts/` (SQL lokal ausführen)
+- `system/config.php` (Secrets – nur manuell auf dem Server anlegen)
+
+**Hochladen** (Inhalt des Projektordners bzw. `dist/`):
+
+```
+index.html, login.html, settings.html, stundenuebersicht.html,
+admindashboard.html, newuser.html, register.html, …
+css/  js/  svgs/  api/  system/
+```
+
+Alles direkt ins Webroot (`/web` bei Hostpoint/Infomaniak), **nicht** in einen Unterordner wie `/clockedin/` – ausser die Domain soll bewusst unter `/unterordner/` laufen.
+
+---
+
+### 3. Wie kann ich die Datenbank importieren?
+
+**Schritt 1 – Tabellen anlegen** (einmalig):
+
+In phpMyAdmin → Datenbank wählen → Reiter **SQL** → Inhalt von [`setup.sql`](setup.sql) einfügen → Ausführen.
+
+Erstellt:
+
+- `users` – Benutzer, Rollen, Standort, NFC `card_id`
+- `arbeitszeiten` – Check-In/Out, Kategorien, Dauer
+- `unbekannte_karten` – gescannte, nicht zugeordnete NFC-UIDs
+
+**Schritt 2 – Demo-Daten (optional):**
+
+[`scripts/screenrecording-seed.sql`](scripts/screenrecording-seed.sql) in phpMyAdmin ausführen → Demo-Admin + Demo-Worker mit 6 Wochen Historie.
+
+**Schritt 3 – Legacy-Spalte (falls nötig):**
+
+Falls `unbekannte_karten` noch Spalte `erfasst_am` statt `seen_at` hat:
+
+[`scripts/migrate-unbekannte-karten-seen-at.sql`](scripts/migrate-unbekannte-karten-seen-at.sql)
+
+*(Die App unterstützt beide Spaltennamen automatisch.)*
+
+---
+
+### 4. Wo muss ich die DB-Credentials eintragen?
+
+1. Auf dem Server: `system/config.example.php` → **`system/config.php`** kopieren
+2. Werte aus dem Hosting-Panel eintragen:
+
+```php
+// system/config.php (oder via SetEnv in .htaccess)
+$host = 'mysqlXX.db.hostpoint.internal';  // oder localhost
+$db   = 'epakubix_im4';
+$user = 'epakubix_im4';
+$pass = '***';
+```
+
+Alternativ Umgebungsvariablen: `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`, optional `DEVICE_API_KEY` für ESP32.
+
+**Lokal:** dieselbe `system/config.php` anlegen. Für Remote-DB: im Hostpoint-Panel **Externer MySQL-Zugriff** für deine IP aktivieren.
+
+---
+
+### 5. WebApp deployen & testen
+
+```bash
+# Optional: sauberen Upload-Ordner bauen
+npm run build          # füllt dist/ (falls build-Script vorhanden)
+
+# Lokal testen
+npm run dev            # http://localhost:8000
+```
+
+1. Dateien per FTP/SFTP ins Webroot hochladen
+2. `https://deine-domain.ch/login.html` öffnen
+3. Mit Demo-Account einloggen (siehe unten)
+4. Hard-Refresh nach CSS/JS-Updates: **Cmd+Shift+R**
+
+---
+
+### 6. Wie nehme ich das physische Artefakt (ESP32) in Betrieb?
+
+Firmware: [`hardware/esp32_zeiterfassung.ino`](hardware/esp32_zeiterfassung.ino)
+
+**Voraussetzungen:**
+
+- ESP32-C6 + PN532 (I2C), OLED, NeoPixel (Pins im Sketch)
+- WLAN **2,4 GHz** (kein 5 GHz)
+- NFC-UID in `users.card_id` (Grossbuchstaben, z. B. `1638047A74BC3D`)
+
+**Konfiguration im Sketch:**
+
+```cpp
+const char* WLAN_SSID     = "dein-wlan";
+const char* WLAN_PASSWORT = "dein-passwort";
+const char* SERVER_URL    = "https://im4.nkstudios.ch/api/load.php";
+const char* DEVICE_API_KEY = "";  // optional, muss mit Server übereinstimmen
+```
+
+**Ablauf NFC-Scan:**
+
+1. ESP32 sendet `POST {"card_id":"1638047A74BC3D"}` an `api/load.php`
+2. **Bekannte Karte** → Check-In oder Check-Out (Server entscheidet)
+3. **Unbekannte Karte** → Eintrag in `unbekannte_karten`, Admin sieht UID im Dashboard
+
+**Lokal testen:**
+
+```cpp
+const bool  SERVER_USE_HTTPS = false;
+const char* SERVER_URL = "http://192.168.x.x:8000/api/load.php";
+```
+
+---
+
+## Projektstruktur
+
+```
+Projekt_Clocked_In/
+├── index.html              # Home – Clock In/Out, Timer
+├── login.html / register.html
+├── settings.html           # Profil, Dark Mode
+├── stundenuebersicht.html  # Stundenübersicht + PDF-Export
+├── admindashboard.html     # Admin: Team, unbekannte UIDs
+├── newuser.html            # Admin: Mitarbeiter anlegen
+├── css/style.css           # Design System + Dark Mode
+├── js/                     # Frontend-Module (siehe unten)
+├── api/                    # PHP REST-Endpoints
+├── system/
+│   ├── bootstrap.php       # Session, DB-Helfer, Business Logic
+│   ├── cors.php
+│   ├── config.php          # (nicht in Git – lokal/Server)
+│   └── config.example.php
+├── setup.sql
+├── scripts/                # SQL-Hilfen, Dev-Server
+└── hardware/               # ESP32 Firmware
+```
+
+---
+
+## Frontend – Design & JavaScript
+
+### Design System (`css/style.css`)
+
+| Token | Wert | Verwendung |
+|-------|------|------------|
+| `--clr-purple` | `#8c79ef` | Headlines, Nav, Timer-Karte |
+| `--clr-green` | `#dbf58a` | Entry-Cards, Erfolg |
+| `--clr-pink` | `#fea3e0` | Akzente, Welcome |
+| `--clr-black` | `#06050a` | Buttons, Text |
+| `--font-display` | Snaga Unicase (Adobe Typekit) | Headlines |
+| `--app-max-width` | `430px` (Mobile), `min(60%, 1200px)` ab 1024px | Zentrierte Spalte |
+
+**Layout:**
+
+- Mobile-first, zentrierte App-Spalte
+- Ab **1024px Desktop:** Header-Zeile + Bottom-Nav **full-width**, Inhalt bleibt zentriert
+- **Dark Mode:** `data-theme="dark"` auf `<html>`, gespeichert in `localStorage` (`clockedin-theme`)
+
+### HTML-Seiten
+
+| Seite | Zweck | JS |
+|-------|-------|-----|
+| `login.html` | Anmeldung | `login.js` |
+| `register.html` | Self-Registration | `register.js` |
+| `index.html` | Home, Timer, Clock In/Out | `home.js` |
+| `stundenuebersicht.html` | Tag/Woche/Monat, PDF | `overview.js`, `timesheet-export.js` |
+| `settings.html` | Profil bearbeiten, Dark Mode | `settings.js`, `logout.js` |
+| `admindashboard.html` | Team-Übersicht, unbekannte UIDs | `admin.js` |
+| `newuser.html` | Mitarbeiter anlegen (Admin) | Inline-Script |
+| `welcomepage.html` | Landing nach Registrierung | — |
+
+### JavaScript-Module
+
+| Datei | Aufgabe |
+|-------|---------|
+| `api-config.js` | `window.apiUrl()` – relative API-Pfade |
+| `theme.js` | Dark/Light Mode, `localStorage` |
+| `nav-boot.js` | Admin-Nav sofort anzeigen (kein Layout-Sprung) |
+| `auth.js` | `requireAuth()`, `applyRoleVisibility()`, Session-Check |
+| `format.js` | Zeitformatierung, `apiGet()`, `apiPost()` |
+| `dialog.js` | Modale Alerts/Confirm |
+| `home.js` | Clock In/Out, Timer, 10h-Auto-Checkout-Poll (60s) |
+| `overview.js` | Kalender, Stundenübersicht |
+| `timesheet-export.js` | PDF-Export (pdfmake) |
+| `admin.js` | Team-Liste, unbekannte UIDs, Löschen, → `newuser.html` |
+| `settings.js` | Profil speichern via `PUT api/profile.php` |
+
+**Auth-Flow:** Jede geschützte Seite ruft `requireAuth()` → `GET api/profile.php` → bei 401 Redirect zu `login.html`. Admin-Seiten prüfen zusätzlich `app_role === 'admin'`.
+
+---
+
+## Datenbank (MySQL)
+
+### `users`
+
+| Spalte | Typ | Beschreibung |
+|--------|-----|--------------|
+| `id` | INT PK | |
+| `email` | VARCHAR UNIQUE | Login |
+| `password` | VARCHAR | bcrypt-Hash |
+| `firstname`, `lastname` | VARCHAR | Anzeigename |
+| `app_role` | VARCHAR | `admin` \| `user` |
+| `job_title` | VARCHAR | z. B. Admin, Ausleihe, Büro |
+| `location_id` | INT | 1=Chur, 2=Bern, 3=Zürich |
+| `card_id` | VARCHAR UNIQUE | NFC-UID |
+
+### `arbeitszeiten`
+
+| Spalte | Typ | Beschreibung |
+|--------|-----|--------------|
+| `user_id` | FK → users | |
+| `zeitstempel` | TIMESTAMP | Check-In/Out-Zeitpunkt |
+| `aktion` | VARCHAR | `Check-In`, `Check-Out` |
+| `kategorie` | VARCHAR | Kita, Büro, Meeting, Cleanup |
+| `dauer_sekunden` | INT | Nur bei Check-Out gesetzt |
+| `uid` | VARCHAR | NFC-Karten-ID oder `web-{user_id}` |
+
+### `unbekannte_karten`
+
+| Spalte | Typ | Beschreibung |
+|--------|-----|--------------|
+| `card_id` | VARCHAR UNIQUE | Gescannte NFC-UID |
+| `seen_at` | DATETIME | Erstmals gesehen *(Legacy: `erfasst_am`)* |
+
+---
+
+## API – alle GET- & POST-Routen
+
+Basis-URL: `https://im4.nkstudios.ch/api/`  
+Auth: PHP-Session-Cookie (`credentials: "include"` im Frontend).
+
+### Authentifizierung
+
+| Route | Methode | Auth | Body / Query | Response |
+|-------|---------|------|--------------|----------|
+| `login.php` | **POST** | — | `{ email, password }` | `{ status: "success" }` |
+| `logout.php` | **GET** | Session | — | `{ status: "success" }` |
+| `register.php` | **POST** | — | `{ email, password }` | `{ status: "success" }` |
+| `profile.php` | **GET** | User | — | `{ success, user }` |
+| `profile.php` | **PUT/POST** | User | `{ firstname, lastname, email }` | `{ success, user }` |
+| `protected.php` | **GET** | User | — | `{ status, user }` (Legacy-Test) |
+
+### Zeiterfassung
+
+| Route | Methode | Auth | Body / Query | Beschreibung |
+|-------|---------|------|--------------|--------------|
+| `arbeitszeiten.php` | **GET** | User | `?mode=status` | Clock-Status, heute Sekunden, Auto-Checkout bei 10h |
+| `arbeitszeiten.php` | **GET** | User | `?from=YYYY-MM-DD&to=YYYY-MM-DD` | Events + Tages-Summen |
+| `arbeitszeiten.php` | **POST** | User | `{ aktion: "Check-In", kategorie }` | Einchecken |
+| `arbeitszeiten.php` | **POST** | User | `{ aktion: "Check-Out" }` | Auschecken (nie blockiert, gecapped) |
+| `arbeitszeiten.php` | **POST** | User | `{ aktion: "Manual", von, bis, datum, kategorie }` | Manueller Eintrag |
+
+### Admin
+
+| Route | Methode | Auth | Body / Query | Beschreibung |
+|-------|---------|------|--------------|--------------|
+| `admin_team.php` | **GET** | Admin | `?location_id=1\|2\|3` | Team mit Status + Monatsstunden |
+| `unbekannte_karten.php` | **GET** | Admin | — | Liste unbekannter NFC-UIDs |
+| `unbekannte_karten.php` | **POST** | Admin | `{ action: "delete", id }` | UID entfernen |
+| `benutzer_erstellen.php` | **POST** | Admin | `multipart/form-data` | Neuer User (siehe Felder unten) |
+
+**`benutzer_erstellen.php` Formularfelder:**
+
+`firstname`, `lastname`, `rolle` (Admin|Ausleihe), `ort` (Chur|Bern|Zürich), `email`, `passwort`, `card_id`
+
+→ Entfernt passende Zeile aus `unbekannte_karten`.
+
+### ESP32 / Hardware
+
+| Route | Methode | Auth | Body | Beschreibung |
+|-------|---------|------|------|--------------|
+| `load.php` | **POST** | Optional `X-Device-Key` | `{ card_id }` | NFC Check-In/Out oder unbekannte Karte speichern |
+| `load.php` | **OPTIONS** | — | — | CORS Preflight |
+
+**Antwort `load.php` (bekannte Karte):**
+
+```json
+{ "success": true, "aktion": "Check-In"|"Check-Out", "mitarbeiter": "...", "dauer_sekunden": 0 }
+```
+
+**Antwort (unbekannte Karte):**
+
+```json
+{ "success": true, "aktion": "Unbekannt", "card_id": "1638047A74BC3D" }
+```
+
+---
+
+## Geschäftsregeln
+
+| Regel | Implementierung |
+|-------|-----------------|
+| **Max. 10h/Tag** | `CLOCKED_MAX_DAILY_SECONDS = 36000` in `system/bootstrap.php` |
+| Auto-Checkout | Bei ≥10h wird offene Session automatisch geschlossen (`clocked_maybe_auto_checkout`) |
+| Manueller Checkout | Immer erlaubt, Dauer wird auf Resttageslimit gekappt |
+| Manueller Eintrag | Abgelehnt wenn >10h/Tag |
+| Kategorien | Kita, Büro, Meeting, Cleanup |
+| Standorte | 1=Chur, 2=Bern, 3=Zürich |
+| Admin-Rolle | `app_role = 'admin'` → Admin-Dashboard + `newuser.html` |
+
+---
+
+## Lokale Entwicklung vs. Produktion
+
+```bash
+npm run dev    # startet php -S 0.0.0.0:8000
+```
+
+| | Lokal | Produktion |
+|---|-------|------------|
+| URL | `http://localhost:8000` | `https://im4.nkstudios.ch` |
+| Dateien | Projektordner | FTP → Webroot |
+| DB | Hostpoint MySQL (Remote) oder lokal | Hostpoint MySQL |
+| ESP32 | Mac-IP:8000 oder Produktions-URL | `https://im4.nkstudios.ch/api/load.php` |
+
+**Tipp:** Gleiche DB lokal und live → Änderungen sofort sichtbar, aber Vorsicht bei Test-Daten.
+
+---
+
+## Demo-Zugangsdaten
+
+Nach [`scripts/screenrecording-seed.sql`](scripts/screenrecording-seed.sql):
+
+| Rolle | E-Mail | Passwort |
+|-------|--------|----------|
+| Admin | `demo.admin@clockedin.test` | `Demo2026!` |
+| Worker | `demo.worker@clockedin.test` | `Demo2026!` |
+
+**Admin testen:** `admindashboard.html` → Unbekannte UID → Chip wählen → «Als Mitarbeiter erfassen» → `newuser.html`
+
 
 ### Bauanleitung Physical Computing
 
