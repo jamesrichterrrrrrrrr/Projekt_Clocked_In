@@ -51,7 +51,7 @@ Das Projekt wurde im Rahmen des Moduls Interaktive Medien 4 entwickelt und verbi
 
 ### Physisches Terminal
 Für das physische Terminal lag der Fokus auf sofortigem, klarem Audio-Visuellen-Feedback.
-* **Audio-Visuelles Feedback:** Um im stressigen Kita-Alltag Sicherheit zu geben, bestätigt das Terminal Aktionen mehrkanalig:
+
 * **Check-In:** Rotes Lauflicht (NeoPixel), kurzes Piepen, Begrüssung auf dem Display.
 * **Check-Out:** Grünes Lauflicht, langes Piepen, Verabschiedung inkl. Aufenthaltsdauer.
 * **Unbekannte Karte:** Blaues Licht, Doppel-Pieps, Aufforderung zur Web-Zuweisung.
@@ -59,11 +59,9 @@ Für das physische Terminal lag der Fokus auf sofortigem, klarem Audio-Visuellen
 
 ## Setup
 
-### Installationsanleitung WebApp
+### Voraussetzungen
 
-#### Voraussetzungen
-
-*Hardware:*
+#### Hardware:
 * ESP32-C6 Development Board
 * PN532 NFC RFID Module V3 (I2C)
 * 0.96" OLED Display I2C (SSD1306)
@@ -72,17 +70,20 @@ Für das physische Terminal lag der Fokus auf sofortigem, klarem Audio-Visuellen
 * Elektrolytkondensator (1000 µF) zur Spannungsglättung des LED-Rings
 * MIFARE Classic NFC-Karten/Tags
 
-*Software:*
+#### Software:
 * Arduino IDE (mit installiertem ESP32 Board-Manager)
 * Libraries: Adafruit_PN532, Adafruit_SSD1306, Adafruit_NeoPixel, Arduino_JSON
 * 2.4 GHz WLAN (z.B. Hotspot mit maximierter Kompatibilität)
 
+### Installationsanleitung WebApp
+
 #### Ablauf
-1. **Hardware verbinden:** Die Komponenten gemäss dem untenstehenden Steckplan auf dem Breadboard verkabeln. Besonders auf die Polarität des Kondensators und des Buzzers achten.
-2. **Software vorbereiten:** Das Repository klonen und den Sketch (.ino) in der Arduino IDE öffnen.
-3. **Netzwerk konfigurieren:** Die Konstanten WLAN_SSID und WLAN_PASSWORT an das lokale 2.4 GHz Netzwerk anpassen.
-4. **Flashen:** Den ESP32-C6 per USB-C anschliessen, das korrekte Board und den COM-Port in der IDE auswählen und den Code hochladen.
-5. **Nutzung:** Nach dem Startvorgang ("Bereit..." auf dem Display) kann eine NFC-Karte auf den roten Scanner gelegt werden.
+1. *Was benötige ich an Infrastruktur?*  
+2. *Was muss ich auf meinem Webserver installieren?*  
+3. *Wie kann ich die Datenbank importieren?*  
+4. *Wo muss ich die DB-Credentials eintragen?*  
+5. *…*  
+6. *Wie nehme ich das physische Artefakt in Betrieb?*
 
 ### Bauanleitung Physical Computing
 
