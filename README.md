@@ -13,7 +13,7 @@ Clocked-In ist eine webbasierte Zeiterfassungsanwendung für die Technikauslei- 
 Das Projekt wurde im Rahmen des Moduls Interaktive Medien 4 entwickelt und verbindet Webentwicklung, Datenbankintegration, Benutzerverwaltung und Physical Computing.
  
 * **WebApp:** https://im4.nkstudios.ch/
-* **Video-Dokumentation:** 
+* **Video-Dokumentation:** https://youtu.be/9lD8mhhMwU8
 
 ## UX & Konzeption
 
